@@ -1,17 +1,17 @@
 /*
  * Freigeister – Design Tokens
  *
- * Ebene 1: Primitive (Rohwerte) - Farb-Primitive nie direkt in Komponenten verwenden;
- *          Spacing, Typografie und Radius sind theme-unabhängig und dürfen direkt genutzt werden
- * Ebene 2: Semantische Tokens (Verwendungszweck, pro Theme neu zugewiesen)
+ * Layer 1: Primitives (raw values) - Never use color primitives directly in components;
+ *          spacing, typography and radius are theme-independent and may be used directly
+ * Layer 2: Semantic tokens (purpose-based, reassigned per theme)
  *
- * Theme-Wechsel: [data-theme="dark"] am <html>-Element, sonst Systemeinstellung
+ * Theme switch: [data-theme="dark"] on the <html> element, otherwise system setting
  */
 
 
-/* ---------- Ebene 1: Primitive ---------- */
+/* ---------- Layer 1: Primitives ---------- */
 :root {
-  /* plum – Neutraltöne mit leichtem Lila-Stich */
+  /* plum – neutrals with a slight purple tint */
   --plum-0: #ffffff;
   --plum-50: #faf8fc;
   --plum-100: #efebf3;
@@ -24,32 +24,32 @@
   --plum-900: #1e1529;
   --plum-950: #140e1c;
 
-  /* lila – Markenfarbe */
+  /* lila – brand color */
   --lila-300: #c4b5fd;
   --lila-500: #8b5cf6;
   --lila-600: #6d28d9;
   --lila-700: #5b21b6;
 
-  /* orange – zweite Markenfarbe, Alarm-Akzent */
+  /* orange – second brand color, alert accent */
   --orange-300: #fdba74;
   --orange-400: #fb923c;
   --orange-500: #f97316;
   --orange-800: #9a3412;
 
-  /* rot – nur für Fehler */
+  /* rot – errors only */
   --rot-300: #fca5a5;
   --rot-700: #b91c1c;
 
-  /* green – Erfolg */
+  /* green – success */
   --green-300: #6fd39a;
   --green-700: #1f6b3a;
 
-  /* Typografie */
+  /* Typography */
   --font-family-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-family-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-family-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
 
-  /* Skala: Basis 16px, Faktor 1.25 (Major Third) */
+  /* Scale: base 16px, ratio 1.25 (major third) */
   --font-size-xs: 0.75rem;     /* 12px */
   --font-size-sm: 0.875rem;    /* 14px */
   --font-size-md: 1rem;        /* 16px */
@@ -66,7 +66,7 @@
   --font-weight-medium: 500;
   --font-weight-bold: 700;
 
-  /* Spacing: 4px-Raster */
+  /* Spacing: 4px grid */
   --space-0: 0;
   --space-1: 0.25rem;  /* 4px */
   --space-2: 0.5rem;   /* 8px */
@@ -85,7 +85,7 @@
 }
 
 
-/* ---------- Ebene 2: Semantische Tokens – Light (Standard) ---------- */
+/* ---------- Layer 2: Semantic tokens – Light (default) ---------- */
 :root {
   color-scheme: light;
 
@@ -93,30 +93,30 @@
   --color-surface: var(--plum-0);
   --color-surface-raised: var(--plum-100);
 
-  --color-text-primary: var(--plum-950);     /* 17.9:1 auf bg */
-  --color-text-secondary: var(--plum-600);   /* 7.4:1 auf bg */
+  --color-text-primary: var(--plum-950);     /* 17.9:1 on bg */
+  --color-text-secondary: var(--plum-600);   /* 7.4:1 on bg */
 
   --color-accent: var(--lila-600);
-  --color-on-accent: var(--plum-0);          /* 7.1:1 auf accent */
-  --color-link: var(--lila-700);             /* 8.5:1 auf bg */
+  --color-on-accent: var(--plum-0);          /* 7.1:1 on accent */
+  --color-link: var(--lila-700);             /* 8.5:1 on bg */
 
   --color-alert: var(--orange-500);
-  --color-on-alert: var(--plum-950);         /* 6.8:1 auf alert */
-  --color-alert-text: var(--orange-800);     /* 6.9:1 auf bg */
+  --color-on-alert: var(--plum-950);         /* 6.8:1 on alert */
+  --color-alert-text: var(--orange-800);     /* 6.9:1 on bg */
 
-  --color-danger: var(--rot-700);            /* 6.1:1 auf bg */
-  --color-success: var(--green-700);         /* 6.2:1 auf bg */
+  --color-danger: var(--rot-700);            /* 6.1:1 on bg */
+  --color-success: var(--green-700);         /* 6.2:1 on bg */
 
-  --color-border: var(--plum-200);           /* dekorativ */
-  --color-border-strong: var(--plum-500);    /* 4.7:1 auf bg, UI ≥ 3:1 */
+  --color-border: var(--plum-200);           /* decorative */
+  --color-border-strong: var(--plum-500);    /* 4.7:1 on bg, UI ≥ 3:1 */
   --color-focus-ring: var(--lila-600);
 
   --shadow-card: 0 1px 3px rgb(20 14 28 / 0.12);
 }
 
 
-/* ---------- Ebene 2: Semantische Tokens – Dark ---------- */
-/* Gleiche Zuweisungen zweimal: Systemeinstellung und expliziter Schalter */
+/* ---------- Layer 2: Semantic tokens – Dark ---------- */
+/* Same assignments twice: system setting and explicit toggle */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
@@ -125,22 +125,22 @@
     --color-surface: var(--plum-900);
     --color-surface-raised: var(--plum-800);
 
-    --color-text-primary: var(--plum-100);     /* 16.1:1 auf bg */
-    --color-text-secondary: var(--plum-300);   /* 9.4:1 auf bg */
+    --color-text-primary: var(--plum-100);     /* 16.1:1 on bg */
+    --color-text-secondary: var(--plum-300);   /* 9.4:1 on bg */
 
     --color-accent: var(--lila-300);
-    --color-on-accent: var(--plum-950);        /* 10.3:1 auf accent */
-    --color-link: var(--lila-300);             /* 10.3:1 auf bg */
+    --color-on-accent: var(--plum-950);        /* 10.3:1 on accent */
+    --color-link: var(--lila-300);             /* 10.3:1 on bg */
 
     --color-alert: var(--orange-400);
-    --color-on-alert: var(--plum-950);         /* 8.4:1 auf alert */
-    --color-alert-text: var(--orange-300);     /* 11.2:1 auf bg */
+    --color-on-alert: var(--plum-950);         /* 8.4:1 on alert */
+    --color-alert-text: var(--orange-300);     /* 11.2:1 on bg */
 
-    --color-danger: var(--rot-300);            /* 10.0:1 auf bg */
-    --color-success: var(--green-300);         /* 10.3:1 auf bg */
+    --color-danger: var(--rot-300);            /* 10.0:1 on bg */
+    --color-success: var(--green-300);         /* 10.3:1 on bg */
 
     --color-border: var(--plum-700);
-    --color-border-strong: var(--plum-500);    /* 3.8:1 auf bg, UI ≥ 3:1 */
+    --color-border-strong: var(--plum-500);    /* 3.8:1 on bg, UI ≥ 3:1 */
     --color-focus-ring: var(--lila-300);
 
     --shadow-card: none;
