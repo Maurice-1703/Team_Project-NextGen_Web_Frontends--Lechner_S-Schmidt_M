@@ -1,11 +1,13 @@
 /*
  * Freigeister – Design Tokens
  *
- * Ebene 1: Primitive (Rohwerte, nie direkt in Komponenten verwenden)
+ * Ebene 1: Primitive (Rohwerte) - Farb-Primitive nie direkt in Komponenten verwenden;
+ *          Spacing, Typografie und Radius sind theme-unabhängig und dürfen direkt genutzt werden
  * Ebene 2: Semantische Tokens (Verwendungszweck, pro Theme neu zugewiesen)
  *
- * Theme-Wechsel: [data-theme="dark"] am <html>-Element, sonst Systemeinstellung.
+ * Theme-Wechsel: [data-theme="dark"] am <html>-Element, sonst Systemeinstellung
  */
+
 
 /* ---------- Ebene 1: Primitive ---------- */
 :root {
@@ -82,6 +84,7 @@
   --radius-full: 9999px;
 }
 
+
 /* ---------- Ebene 2: Semantische Tokens – Light (Standard) ---------- */
 :root {
   color-scheme: light;
@@ -110,6 +113,7 @@
 
   --shadow-card: 0 1px 3px rgb(20 14 28 / 0.12);
 }
+
 
 /* ---------- Ebene 2: Semantische Tokens – Dark ---------- */
 /* Gleiche Zuweisungen zweimal: Systemeinstellung und expliziter Schalter */

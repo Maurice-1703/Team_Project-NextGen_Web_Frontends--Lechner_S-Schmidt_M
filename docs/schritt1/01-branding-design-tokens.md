@@ -14,8 +14,10 @@ Visuell trägt **Lila** die Marke (Buttons, Links, Fokus), **Orange** ist der Al
 
 Die Tokens liegen als CSS Custom Properties in [`/tokens/tokens.css`](../../tokens/tokens.css) und sind in zwei Ebenen getrennt:
 
-1. **Primitive** enthalten nur Rohwerte und tragen den Farbnamen im Token (`--lila-600`, `--plum-950`, `--space-4`). Sie werden nie direkt in Komponenten verwendet.
-2. **Semantische Tokens** beschreiben den Zweck (`--color-surface`, `--color-text-primary`, `--color-accent`) und verweisen auf Primitive. Nur sie werden in Komponenten benutzt.
+1. **Primitive** enthalten nur Rohwerte und tragen den Farbnamen im Token (`--lila-600`, `--plum-950`). Farb-Primitive werden nie direkt in Komponenten verwendet, sondern nur innerhalb von `tokens.css` als Wert der semantischen Tokens.
+2. **Semantische Tokens** beschreiben den Zweck (`--color-surface`, `--color-text-primary`, `--color-accent`) und verweisen auf Primitive. Für Farben werden in Komponenten nur sie benutzt.
+
+Die strenge Trennung gilt nur für Farben, weil sich nur diese zwischen Light und Dark ändern. Spacing, Typografie und Radien (`--space-4`, `--font-size-lg`, `--radius-md`) sind in jedem Theme gleich und werden deshalb direkt in Komponenten verwendet.
 
 Wir haben uns aus drei Gründen für diese Trennung entschieden:
 
@@ -40,7 +42,7 @@ Alle Text/Hintergrund-Paare erfüllen WCAG 2.1 AA (mindestens 4.5:1 für Text, 3
 | `success` auf `bg` | 6.2:1 | 10.3:1 |
 | `border-strong` auf `bg` (UI) | 4.7:1 | 3.8:1 |
 
-Lila und Orange unterscheiden sich im Farbton deutlich, auch bei Rot-Grün-Schwäche. Rot ist bewusst keine Markenfarbe, sondern nur für Fehler reserviert, damit eine Fehlermeldung nie wie ein Marken-Badge aussieht. Wie von WCAG 1.4.1 verlangt, trägt Farbe trotzdem nie allein eine Information: Badges haben Text, Fehler zusätzlich ein Icon.
+Wie von WCAG 1.4.1 verlangt, trägt Farbe trotzdem nie allein eine Information: Badges haben Text, Fehler zusätzlich ein Icon.
 
 ## Typografie- und Spacing-Skala
 
