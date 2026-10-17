@@ -156,7 +156,9 @@ Das Composable hält die aktiven Filter (Tag, Track, Level, Speaker, Suchtext), 
 Begründung:
 - **Mehrere Darstellungen derselben Logik:** Am Desktop als Filterleiste, am Handy als ausklappbares Panel. Beide nutzen dasselbe Composable, die Logik wird nicht doppelt geschrieben.
 - **Mehrere Verbraucher:** Filterleiste und Session-Liste brauchen denselben Zustand. Liegt er im Composable, sind beide automatisch synchron.
-- **Testbarkeit:** Die Filterlogik ist reines TypeScript und lässt sich ohne Browser testen.
+- **Testbarkeit:** Die Filterlogik ist reines TypeScript und lässt sich ohne Browser testen.  
+
+
 
 **„Zum Programm hinzufügen“: nein, kein eigenes Headless-Composable**
 
@@ -176,10 +178,4 @@ Die Logik (hinzufügen, entfernen, prüfen ob enthalten) liegt bereits im Store 
 - Code zu einem Feature verteilt sich auf mehrere Ordner. Wer am Filter arbeitet, öffnet `composables/useSessionFilter.ts`, `components/feature/SessionFilterBar.vue` und `views/SessionsView.vue`.
 - `components/feature/` kann bis E8 voll werden. Ab etwa 10 Dateien können wir es in Unterordner (`feature/session/`, `feature/speaker/`) aufteilen, ohne die Schichten zu ändern.
 - Die Schichtregel muss im Code-Review geprüft werden. Eine Base-Komponente, die eine Feature-Komponente importiert, ist ein Fehler.
-- Weil nicht nach Feature getrennt wird, sprechen wir vor jeder Branch ab, wer welche Dateien bearbeitet.
-
-**Für das Grundgerüst (Aufgabe E)**
-- Alle Ordner aus dem Baum oben anlegen (leere Ordner in Git mit einer `.gitkeep`-Datei, weil Git leere Ordner nicht speichert).
-- `vue-router` installieren, `router/index.ts` mit mindestens einer Route.
-- `conference-data.json` nach `src/assets/data/` kopieren und z. B. die Anzahl der Sessions anzeigen.
-- Mindestens `AppShell` und `AppHeader` mit Branding, damit die Layout-Schicht sichtbar ist.
+- Weil nicht nach Feature getrennt wird, sprechen wir vor jeder Branch ab, wer welche Dateien bearbeitet beziehungsweise können wir auch unterschiedliche Uhrzeiten festlegen, an denen wir am Projekt arbeiten.
