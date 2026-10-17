@@ -1,5 +1,5 @@
 /*
- * Freigeister – Design Tokens
+ * CouchCoding – Design Tokens
  *
  * Layer 1: Primitives (raw values) - Never use color primitives directly in components;
  *          spacing, typography and radius are theme-independent and may be used directly
@@ -8,37 +8,38 @@
  * Theme switch: [data-theme="dark"] on the <html> element, otherwise system setting
  */
 
-
+ 
 /* ---------- Layer 1: Primitives ---------- */
 :root {
-  /* plum – neutrals with a slight purple tint */
-  --plum-0: #ffffff;
-  --plum-50: #faf8fc;
-  --plum-100: #efebf3;
-  --plum-200: #ddd6e4;
-  --plum-300: #bdb3c9;
-  --plum-500: #776a88;
-  --plum-600: #5a4d6b;
-  --plum-700: #3f3350;
-  --plum-800: #2c2139;
-  --plum-900: #1e1529;
-  --plum-950: #140e1c;
+  /* cocoa – warm neutrals, from cream (blanket) to dark aubergine (evening) */
+  --cocoa-0: #ffffff;
+  --cocoa-50: #fbf7f2;
+  --cocoa-100: #f3ece4;
+  --cocoa-200: #e3d8ce;
+  --cocoa-300: #c4b8c2;
+  --cocoa-500: #7d6f7e;
+  --cocoa-600: #5e5163;
+  --cocoa-700: #43384a;
+  --cocoa-800: #30263a;
+  --cocoa-900: #241c2b;
+  --cocoa-950: #1a1420;
 
-  /* lila – brand color */
-  --lila-300: #c4b5fd;
-  --lila-500: #8b5cf6;
-  --lila-600: #6d28d9;
-  --lila-700: #5b21b6;
+  /* flieder – brand color */
+  --flieder-200: #e6daf5;
+  --flieder-300: #cdb6ee;
+  --flieder-500: #9672cc;
+  --flieder-600: #7a55b3;
+  --flieder-700: #5f3f92;
 
-  /* orange – second brand color, alert accent */
-  --orange-300: #fdba74;
-  --orange-400: #fb923c;
-  --orange-500: #f97316;
-  --orange-800: #9a3412;
+  /* orange – second brand color, warm highlight */
+  --orange-300: #ffc08a;
+  --orange-400: #ffa05c;
+  --orange-500: #f28a3c;
+  --orange-800: #9a4410;
 
-  /* rot – errors only */
-  --rot-300: #fca5a5;
-  --rot-700: #b91c1c;
+  /* red – errors only */
+  --red-300: #fda29b;
+  --red-700: #b42318;
 
   /* green – success */
   --green-300: #6fd39a;
@@ -77,10 +78,10 @@
   --space-12: 3rem;    /* 48px */
   --space-16: 4rem;    /* 64px */
 
-  /* Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  /* Radius: deliberately soft, like cushions */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
 }
 
@@ -89,29 +90,29 @@
 :root {
   color-scheme: light;
 
-  --color-bg: var(--plum-50);
-  --color-surface: var(--plum-0);
-  --color-surface-raised: var(--plum-100);
+  --color-bg: var(--cocoa-50);
+  --color-surface: var(--cocoa-0);
+  --color-surface-raised: var(--cocoa-100);
 
-  --color-text-primary: var(--plum-950);     /* 17.9:1 on bg */
-  --color-text-secondary: var(--plum-600);   /* 7.4:1 on bg */
+  --color-text-primary: var(--cocoa-950);    /* 16.9:1 on bg */
+  --color-text-secondary: var(--cocoa-600);  /* 7.0:1 on bg */
 
-  --color-accent: var(--lila-600);
-  --color-on-accent: var(--plum-0);          /* 7.1:1 on accent */
-  --color-link: var(--lila-700);             /* 8.5:1 on bg */
+  --color-accent: var(--flieder-600);
+  --color-on-accent: var(--cocoa-0);         /* 5.6:1 on accent */
+  --color-link: var(--flieder-700);          /* 7.5:1 on bg */
 
-  --color-alert: var(--orange-500);
-  --color-on-alert: var(--plum-950);         /* 6.8:1 on alert */
-  --color-alert-text: var(--orange-800);     /* 6.9:1 on bg */
+  --color-highlight: var(--orange-500);
+  --color-on-highlight: var(--cocoa-950);    /* 7.3:1 on highlight */
+  --color-highlight-text: var(--orange-800); /* 6.1:1 on bg */
 
-  --color-danger: var(--rot-700);            /* 6.1:1 on bg */
-  --color-success: var(--green-700);         /* 6.2:1 on bg */
+  --color-danger: var(--red-700);            /* 6.2:1 on bg */
+  --color-success: var(--green-700);         /* 6.1:1 on bg */
 
-  --color-border: var(--plum-200);           /* decorative */
-  --color-border-strong: var(--plum-500);    /* 4.7:1 on bg, UI ≥ 3:1 */
-  --color-focus-ring: var(--lila-600);
+  --color-border: var(--cocoa-200);          /* decorative */
+  --color-border-strong: var(--cocoa-500);   /* 4.4:1 on bg, UI ≥ 3:1 */
+  --color-focus-ring: var(--flieder-600);
 
-  --shadow-card: 0 1px 3px rgb(20 14 28 / 0.12);
+  --shadow-card: 0 2px 8px rgb(26 20 32 / 0.08);
 }
 
 
@@ -121,27 +122,27 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --color-bg: var(--plum-950);
-    --color-surface: var(--plum-900);
-    --color-surface-raised: var(--plum-800);
+    --color-bg: var(--cocoa-950);
+    --color-surface: var(--cocoa-900);
+    --color-surface-raised: var(--cocoa-800);
 
-    --color-text-primary: var(--plum-100);     /* 16.1:1 on bg */
-    --color-text-secondary: var(--plum-300);   /* 9.4:1 on bg */
+    --color-text-primary: var(--cocoa-100);    /* 15.4:1 on bg */
+    --color-text-secondary: var(--cocoa-300);  /* 9.4:1 on bg */
 
-    --color-accent: var(--lila-300);
-    --color-on-accent: var(--plum-950);        /* 10.3:1 on accent */
-    --color-link: var(--lila-300);             /* 10.3:1 on bg */
+    --color-accent: var(--flieder-300);
+    --color-on-accent: var(--cocoa-950);       /* 9.9:1 on accent */
+    --color-link: var(--flieder-300);          /* 9.9:1 on bg */
 
-    --color-alert: var(--orange-400);
-    --color-on-alert: var(--plum-950);         /* 8.4:1 on alert */
-    --color-alert-text: var(--orange-300);     /* 11.2:1 on bg */
+    --color-highlight: var(--orange-400);
+    --color-on-highlight: var(--cocoa-950);    /* 9.0:1 on highlight */
+    --color-highlight-text: var(--orange-300); /* 11.3:1 on bg */
 
-    --color-danger: var(--rot-300);            /* 10.0:1 on bg */
-    --color-success: var(--green-300);         /* 10.3:1 on bg */
+    --color-danger: var(--red-300);            /* 9.3:1 on bg */
+    --color-success: var(--green-300);         /* 9.8:1 on bg */
 
-    --color-border: var(--plum-700);
-    --color-border-strong: var(--plum-500);    /* 3.8:1 on bg, UI ≥ 3:1 */
-    --color-focus-ring: var(--lila-300);
+    --color-border: var(--cocoa-700);
+    --color-border-strong: var(--cocoa-500);   /* 3.8:1 on bg, UI ≥ 3:1 */
+    --color-focus-ring: var(--flieder-300);
 
     --shadow-card: none;
   }
@@ -150,27 +151,27 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --color-bg: var(--plum-950);
-  --color-surface: var(--plum-900);
-  --color-surface-raised: var(--plum-800);
+  --color-bg: var(--cocoa-950);
+  --color-surface: var(--cocoa-900);
+  --color-surface-raised: var(--cocoa-800);
 
-  --color-text-primary: var(--plum-100);
-  --color-text-secondary: var(--plum-300);
+  --color-text-primary: var(--cocoa-100);
+  --color-text-secondary: var(--cocoa-300);
 
-  --color-accent: var(--lila-300);
-  --color-on-accent: var(--plum-950);
-  --color-link: var(--lila-300);
+  --color-accent: var(--flieder-300);
+  --color-on-accent: var(--cocoa-950);
+  --color-link: var(--flieder-300);
 
-  --color-alert: var(--orange-400);
-  --color-on-alert: var(--plum-950);
-  --color-alert-text: var(--orange-300);
+  --color-highlight: var(--orange-400);
+  --color-on-highlight: var(--cocoa-950);
+  --color-highlight-text: var(--orange-300);
 
-  --color-danger: var(--rot-300);
+  --color-danger: var(--red-300);
   --color-success: var(--green-300);
 
-  --color-border: var(--plum-700);
-  --color-border-strong: var(--plum-500);
-  --color-focus-ring: var(--lila-300);
+  --color-border: var(--cocoa-700);
+  --color-border-strong: var(--cocoa-500);
+  --color-focus-ring: var(--flieder-300);
 
   --shadow-card: none;
 }
