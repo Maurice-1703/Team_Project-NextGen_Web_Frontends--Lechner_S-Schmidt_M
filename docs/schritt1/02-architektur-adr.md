@@ -10,7 +10,7 @@
 
 Wir bauen eine Konferenz-Plattform für die fiktive zweitägige Web-Frontend-Konferenz „FrontendNow“. Pflichtfunktionen sind Session-Suche und -Filter, Speaker-Profile, ein persönlicher Zeitplan („Mein Programm“), Offline-Verfügbarkeit und Dark Mode. Datenquelle ist die statische, schreibgeschützte `conference-data.json` (Sessions, Speaker, Tracks, Räume); es gibt kein Backend.
 
-Das Projekt umfasst voraussichtlich 6 Views und rund 15 Komponenten und wird von zwei Personen entwickelt. Es wächst über vier Schritte: In Schritt 2 kommt die Rendering-Strategie dazu, in Schritt 3 PWA und Offline-Logik. Die Struktur muss diese Erweiterungen aufnehmen, ohne umgebaut zu werden.
+Das Projekt umfasst voraussichtlich 6 Views und gut ein Dutzend Komponenten und wird von zwei Personen entwickelt. Es wächst über vier Schritte: In Schritt 2 kommt die Rendering-Strategie dazu, in Schritt 3 PWA und Offline-Logik. Die Struktur muss diese Erweiterungen aufnehmen, ohne umgebaut zu werden.
 
 Dieses ADR geht von Vue 3 + Vite + vue-router aus (siehe ADR D). Bei Nuxt wären Teile der Struktur vorgegeben: Seiten lägen in `pages/` und würden automatisch zu Routen, Composables und Komponenten würden automatisch importiert.
 
@@ -96,7 +96,7 @@ tokens/
 
 
 
-### Komponentenübersicht
+### Komponentenübersicht (voraussichtlich)
 
 ```mermaid
 graph TD
@@ -106,6 +106,7 @@ graph TD
     SPV[SpeakersView]
     SPDV[SpeakerDetailView]
     MPV[MyProgramView]
+    NFV[NotFoundView]
   end
 
   subgraph Layout
