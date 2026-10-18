@@ -1,4 +1,4 @@
-# C: State-Management-Konzept: „Mein Programm“ und conference-data.json
+# C: State-Management-Konzept - „Mein Programm“ und conference-data.json
 
 ## Konzept
 

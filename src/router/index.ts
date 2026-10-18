@@ -6,6 +6,7 @@ import SpeakersView from '../views/SpeakersView.vue'
 import SpeakerDetailView from '../views/SpeakerDetailView.vue'
 import MyProgramView from '../views/MyProgramView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
+import BrandingView from '../views/BrandingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +14,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/sessions',
+      redirect: '/branding',
+    },
+    {
+      path: '/branding',
+      name: 'branding',
+      component: BrandingView,
     },
     {
       path: '/sessions',

@@ -146,7 +146,7 @@ Wir haben für zwei zentrale Interaktionen geprüft, ob die Logik als Composable
 
 **Session-Filterung: ja, headless als `useSessionFilter()`**
 
-Das Composable liest die aktiven Filter (Tag, Track, Level, Speaker, Suchtext) aus den Query-Parametern der URL und schreibt Änderungen dorthin zurück. Die URL ist damit die einzige Quelle der Wahrheit für den Filterzustand. Es liefert die gefilterte Session-Liste (`filtered`), die aktiven Filter (`activeFilters`) und `reset()`. Aufgerufen wird es in SessionsView; die View gibt die Filterwerte per v-model an SessionFilterBar weiter und rendert filtered als Liste. Die Darstellung bleibt austauschbar.
+Das Composable liest die aktiven Filter (Tag, Track, Level, Speaker, Suchtext) aus den Query-Parametern der URL und schreibt Änderungen dorthin zurück. Die URL ist damit die einzige Quelle der Wahrheit für den Filterzustand. Es liefert die gefilterte Session-Liste (`filtered`), die aktiven Filter (`activeFilters`) und `reset()`. Aufgerufen wird es in `SessionsView`; die View gibt die Filterwerte per `v-model` an `SessionFilterBar` weiter und rendert `filtered` als Liste. Die Darstellung bleibt austauschbar.
 
 Begründung:
 - **Mehrere Darstellungen derselben Logik:** Am Desktop als Filterleiste, am Handy als ausklappbares Panel. Beide nutzen dasselbe Composable, die Logik wird nicht doppelt geschrieben.

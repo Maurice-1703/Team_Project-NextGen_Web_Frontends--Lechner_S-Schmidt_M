@@ -1,4 +1,4 @@
-# A: Branding & Design Tokens: CouchCoding
+# A: Branding & Design Tokens - CouchCoding
 
 ## Teamname und Markenkonzept
 
@@ -44,7 +44,7 @@ Nach WCAG 1.4.1 trägt Farbe nie allein eine Information: Hervorhebungen haben T
 
 ## Typografie- und Spacing-Skala
 
-- **Schriften:** Fraunces für Überschriften (weiche, freundliche Serifen), Inter für Fließtext und UI, JetBrains Mono für Uhrzeiten und Räume. Alle werden selbst gehostet, damit sie offline verfügbar sind (PWA-Erweiterung in Schritt 3).
+- **Schriften:** Fraunces für Überschriften (weiche, freundliche Serifen), Inter für Fließtext und UI, JetBrains Mono für Uhrzeiten und Räume. Alle sollten selbst gehostet werden, damit sie offline verfügbar sind (PWA-Erweiterung in Schritt 3).
 - **Typo-Skala:** Basis 16px, Faktor 1.25: 12 / 14 / 16 / 20 / 25 / 31 / 39px.
 - **Spacing:** 4px-Raster: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64px.
 - **Radius:** 6 / 12 / 20px und `full` für Chips.
