@@ -1,10 +1,10 @@
-# Branding & Design Tokens: CouchCoding
+# A: Branding & Design Tokens: CouchCoding
 
 ## Teamname und Markenkonzept
 
-**CouchCoding** ist die Konferenz-Plattform für alle, die FrontendNow gemütlich von der Couch oder aus dem Bett verfolgen wollen. Coden soll Spaß machen, und zwei Konferenztage sollen sich nach einer vollen Arbeitswoche nicht wie Pflicht anfühlen, sondern wie eine Einladung: Decke holen, warmes Getränk in die Hand, Vorträge genießen.
+**CouchCoding** ist die Konferenz-Plattform für alle, die FrontendNow so entspannt erleben wollen wie einen Abend auf der Couch. Zwei Konferenztage nach einer vollen Arbeitswoche sollen sich nicht wie Pflicht anfühlen, sondern wie eine Einladung: Das Programm stellt man sich am Vorabend gemütlich vom Sofa aus zusammen, vor Ort ist die App ein ruhiger Begleiter durch den Konferenztrubel.
 
-Von einer generischen Konferenz-Website unterscheidet uns, dass wir nicht nur Zuhörer bedienen, sondern zum Mitmachen einladen. Wer sich seinen Zeitplan zusammenstellt, plant aktiv mit („Mein Couch-Programm“). Der Offline-Modus sorgt dafür, dass das Programm auch dann da ist, wenn das WLAN im Schlafzimmer schwächelt. Der Dark Mode ist der „Leselampen-Modus“ für den Abend. Ton und Gestaltung sind warm, ruhig und freundlich, ohne Hektik und ohne Marketing-Lärm.
+Von einer generischen Konferenz-Website unterscheidet uns, dass wir nicht nur informieren, sondern zum Mitplanen einladen. Wer sich seinen Zeitplan zusammenstellt, plant aktiv mit („Mein Couch-Programm“) und hat ihn auch dann dabei, wenn das Konferenz-WLAN schwächelt. Der Dark Mode ist der „Leselampen-Modus“ für abgedunkelte Vortragssäle: genug Licht zum Lesen, ohne zu blenden. Ton und Gestaltung sind warm, ruhig und freundlich, ohne Hektik und ohne Marketing-Lärm.
 
 Visuell steht **Flieder** für Ruhe und trägt die Marke (Buttons, Links, Fokus). **Orange** ist das warme Licht einer Leselampe und hebt Wichtiges hervor, etwa die gerade laufende Session. Hintergründe sind cremefarben statt kaltweiß, im Dark Mode ein dunkles Aubergine statt Schwarz. Radien sind bewusst weich, wie Kissen.
 
@@ -44,7 +44,7 @@ Nach WCAG 1.4.1 trägt Farbe nie allein eine Information: Hervorhebungen haben T
 
 ## Typografie- und Spacing-Skala
 
-- **Schriften:** Fraunces für Überschriften (weiche, freundliche Serifen), Inter für Fließtext und UI, JetBrains Mono für Uhrzeiten und Räume. Alle werden selbst gehostet, damit sie offline verfügbar sind.
+- **Schriften:** Fraunces für Überschriften (weiche, freundliche Serifen), Inter für Fließtext und UI, JetBrains Mono für Uhrzeiten und Räume. Alle werden selbst gehostet, damit sie offline verfügbar sind (PWA-Erweiterung in Schritt 3).
 - **Typo-Skala:** Basis 16px, Faktor 1.25: 12 / 14 / 16 / 20 / 25 / 31 / 39px.
 - **Spacing:** 4px-Raster: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64px.
 - **Radius:** 6 / 12 / 20px und `full` für Chips.

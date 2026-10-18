@@ -1,4 +1,4 @@
-# C. State-Management-Konzept: „Mein Programm“ und conference-data.json
+# C: State-Management-Konzept: „Mein Programm“ und conference-data.json
 
 ## Konzept
 
@@ -8,7 +8,7 @@ Die `conference-data.json` wird statisch importiert und über `useConferenceData
 
 Für das persönliche Programm speichern wir ein Array eindeutiger Session-IDs, beispielsweise `["s02", "s07"]`. Vollständige Session-Objekte würden dieselben Inhalte zusätzlich speichern und könnten vom Datensatz abweichen. Ein `computed()` ermittelt aus den IDs die ausgewählten Sessions und sortiert sie nach Tag und Startzeit. Das ursprüngliche Sessions-Array bleibt dabei unverändert.
 
-Der gemeinsame Zustand liegt wie in B vorgesehen in `stores/myProgram.ts`. Dort wird einmal pro App-Instanz ein Store mit `ref<string[]>` erzeugt. `App.vue` stellt ihn über `provide` bereit; `useMyProgram()` holt über `inject` dieselbe Instanz. `SessionCard`, `AddToProgramButton` und `MyProgramView` greifen dadurch auf dieselbe reaktive Auswahl zu. Änderungen laufen über `addSession()` und `removeSession()`; `isSelected()` prüft die Auswahl. Unbekannte IDs und doppelte Einträge werden verhindert. Komponenten erhalten schreibgeschützten Zugriff. Pinia wäre eine Alternative; für diesen kleinen Zustand reichen zunächst die Vue-Funktionen.
+Der gemeinsame Zustand liegt wie in B vorgesehen in `stores/myProgram.ts`. Dort wird einmal pro App-Instanz ein Store mit `ref<string[]>` erzeugt. `App.vue` stellt ihn über `provide` bereit; die ebenfalls in `stores/myProgram.ts` exportierte Funktion `useMyProgram()` holt über `inject` dieselbe Instanz. `SessionCard`, `AddToProgramButton` und `MyProgramView` greifen dadurch auf dieselbe reaktive Auswahl zu. Änderungen laufen über `addSession()` und `removeSession()`; `isSelected()` prüft die Auswahl. Unbekannte IDs und doppelte Einträge werden verhindert. Komponenten erhalten schreibgeschützten Zugriff. Pinia wäre eine Alternative; für diesen kleinen Zustand reichen zunächst die Vue-Funktionen.
 
 Die Session-Filter bleiben entsprechend B in `useSessionFilter()` und werden mit den URL-Parametern synchronisiert. Sie gehören nicht zur gespeicherten Programmauswahl. Base-Komponenten erhalten weiterhin nur Props, Slots und Events. Hinweise und Auswahlzustände verwenden die semantischen Design-Tokens aus A.
 

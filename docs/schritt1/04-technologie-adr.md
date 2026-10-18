@@ -16,7 +16,7 @@ Nuxt baut ebenfalls auf Vue auf und erzeugt Routen anhand der Dateien im Seiteno
 
 ## Entscheidung
 
-Wir wählen Vue 3 mit TypeScript, Vite und Vue Router. Der Routing-Bedarf ist damit abgedeckt, und die Ordnerstruktur aus B kann direkt verwendet werden. Beide Teammitglieder haben bereits Vorerfahrung mit diesen Technologien, weshalb wir uns auch aus diesem Grund für diesen Stack entschieden haben. Für die Zusammenarbeit sind ausdrücklich definierte Routen und Imports gut überprüfbar. Die Einarbeitung konzentriert sich zunächst auf Vue Router. Dafür verwenden wir den Vue Router Guide, insbesondere Routenkonfiguration, dynamische Parameter, `RouterLink`, `RouterView` und Query-Parameter.
+Wir wählen Vue 3 mit TypeScript, Vite und Vue Router. Der Routing-Bedarf ist damit abgedeckt, und die Ordnerstruktur aus B kann direkt verwendet werden. Mit Vue 3, TypeScript und Vite haben wir beide in den bisherigen Hausübungen gearbeitet; das war ein weiterer Grund für diesen Stack. Neu ist für uns nur Vue Router, deshalb konzentriert sich die Einarbeitung darauf. Für die Zusammenarbeit sind ausdrücklich definierte Routen und Imports gut überprüfbar. Dafür verwenden wir den Vue Router Guide, insbesondere Routenkonfiguration, dynamische Parameter, `RouterLink`, `RouterView` und Query-Parameter.
 
 Das State-Management aus C bleibt bei einem gemeinsamen Vue-Store mit `localStorage`. Die Design-Tokens aus A werden über globale CSS-Imports eingebunden.
 

@@ -1,14 +1,8 @@
 # ADR B: Komponenten- und Ordnerstruktur
 
-- **Status:** Entwurf
-- **Datum:** 2026-10-17
-- **Verantwortlichkeit:** Maurice Schmidt (Verschriftlichung), gemeinsam entschieden mit Sam Lechner
-
-
-
 ## Kontext
 
-Wir bauen eine Konferenz-Plattform für die fiktive zweitägige Web-Frontend-Konferenz „FrontendNow“. Pflichtfunktionen sind Session-Suche und -Filter, Speaker-Profile, ein persönlicher Zeitplan („Mein Programm“), Offline-Verfügbarkeit und Dark Mode. Datenquelle ist die statische, schreibgeschützte `conference-data.json` (Sessions, Speaker, Tracks, Räume); es gibt kein Backend.
+Wir bauen eine Konferenz-Plattform für die fiktive zweitägige Web-Frontend-Konferenz „FrontendNow“. Pflichtfunktionen sind Session-Suche und -Filter, Speaker-Profile, ein persönlicher Zeitplan („Mein Programm“), in der Oberfläche „Mein Couch-Programm“, Offline-Verfügbarkeit und Dark Mode. Datenquelle ist die statische, schreibgeschützte `conference-data.json` (Sessions, Speaker, Tracks, Räume); es gibt kein Backend.
 
 Das Projekt umfasst voraussichtlich 6 Views und gut ein Dutzend Komponenten und wird von zwei Personen entwickelt. Es wächst über vier Schritte: In Schritt 2 kommt die Rendering-Strategie dazu, in Schritt 3 PWA und Offline-Logik. Die Struktur muss diese Erweiterungen aufnehmen, ohne umgebaut zu werden.
 
@@ -80,7 +74,7 @@ src/
     feature/                 SessionCard, SessionFilterBar, SpeakerCard, AddToProgramButton
     layout/                  AppHeader, AppNav, AppShell, ThemeToggle, OfflineBanner
   composables/               useConferenceData, useSessionFilter, useTheme, useOnlineStatus
-  stores/                    myProgram.ts (Details siehe Konzept C)
+  stores/                    myProgram.ts inkl. useMyProgram() (Details siehe Konzept C)
   types/                     conference.ts (Session, Speaker, Track, Room)
   views/                     SessionsView, SessionDetailView, SpeakersView,
                              SpeakerDetailView, MyProgramView, NotFoundView
@@ -152,18 +146,18 @@ Wir haben für zwei zentrale Interaktionen geprüft, ob die Logik als Composable
 
 **Session-Filterung: ja, headless als `useSessionFilter()`**
 
-Das Composable hält die aktiven Filter (Tag, Track, Level, Speaker, Suchtext), synchronisiert sie mit den Query-Parametern der URL und liefert die gefilterte Session-Liste (`filtered`), die aktiven Filter (`activeFilters`) und `reset()`. Die Darstellung bleibt austauschbar.
+Das Composable liest die aktiven Filter (Tag, Track, Level, Speaker, Suchtext) aus den Query-Parametern der URL und schreibt Änderungen dorthin zurück. Die URL ist damit die einzige Quelle der Wahrheit für den Filterzustand. Es liefert die gefilterte Session-Liste (`filtered`), die aktiven Filter (`activeFilters`) und `reset()`. Aufgerufen wird es in SessionsView; die View gibt die Filterwerte per v-model an SessionFilterBar weiter und rendert filtered als Liste. Die Darstellung bleibt austauschbar.
 
 Begründung:
 - **Mehrere Darstellungen derselben Logik:** Am Desktop als Filterleiste, am Handy als ausklappbares Panel. Beide nutzen dasselbe Composable, die Logik wird nicht doppelt geschrieben.
-- **Mehrere Verbraucher:** Filterleiste und Session-Liste brauchen denselben Zustand. Liegt er im Composable, sind beide automatisch synchron.
-- **Testbarkeit:** Die Filterlogik ist reines TypeScript und lässt sich ohne Browser testen.  
+- **Mehrere Verbraucher:** Filterleiste und Session-Liste brauchen denselben Zustand. Weil die View das Composable einmal aufruft und beide aus demselben Ergebnis versorgt, sind sie automatisch synchron. Da der Zustand in der URL liegt, bleibt er auch beim Neuladen, beim Teilen eines Links und mit dem Zurück-Button erhalten.
+- **Testbarkeit:** Die eigentliche Filterlogik liegt als reine Funktion im Composable (Sessions und Filterwerte rein, gefilterte Liste raus) und lässt sich ohne Browser und ohne Router testen. Nur die Synchronisation mit der URL hängt am Router.  
 
 
 
 **„Zum Programm hinzufügen“: nein, kein eigenes Headless-Composable**
 
-Die Logik (hinzufügen, entfernen, prüfen ob enthalten) liegt bereits im Store für Mein Programm (Konzept C). `AddToProgramButton` ruft den Store direkt auf und zeigt den Zustand an. Ein zusätzliches Composable wie `useAddToProgram()` würde nur die Store-Funktionen weiterreichen, ohne eigene Logik. Es gibt außerdem nur eine Darstellung (einen Button), die an mehreren Stellen wiederverwendet wird. Eine Trennung brächte hier keinen Vorteil und wäre Headless als Selbstzweck.
+Die Logik (hinzufügen, entfernen, prüfen ob enthalten) liegt bereits im Store für Mein Programm (Konzept C). `AddToProgramButton` holt sich den Store über `useMyProgram()` und ruft dessen Funktionen direkt auf. Ein zusätzliches Composable wie `useAddToProgram()` würde nur diese Store-Funktionen weiterreichen, ohne eigene Logik. Es gibt außerdem nur eine Darstellung (einen Button), die an mehreren Stellen wiederverwendet wird. Eine Trennung brächte hier keinen Vorteil und wäre Headless als Selbstzweck.
 
 
 
