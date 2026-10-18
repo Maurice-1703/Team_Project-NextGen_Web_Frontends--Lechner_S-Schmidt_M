@@ -22,7 +22,7 @@ Das State-Management aus C bleibt bei einem gemeinsamen Vue-Store mit `localStor
 
 ## Konsequenzen
 
-Die in B beschriebene Ordnerstruktur setzt auf diesem Setup auf; `router/index.ts` und die Views aus B ergeben sich direkt aus der Wahl von Vue Router.. Gemeinsame Komponenten und Composables bleiben weitgehend unabhängig von der Routenkonfiguration; nur useSessionFilter() nutzt bewusst die Query-Parameter des Routers, damit Filter beim Neuladen und beim Teilen eines Links erhalten bleiben (siehe B). Neue Views müssen wir jedoch selbst registrieren und ihre Verlinkung prüfen. TypeScript-Prüfung und Build laufen über das vorhandene `npm run build` mit `vue-tsc` und Vite. Die spätere PWA-Erweiterung braucht zusätzliche Einrichtung. Rendering-Strategien werden gesondert in Schritt 2 entschieden.
+Die in B beschriebene Ordnerstruktur setzt auf diesem Setup auf; `router/index.ts` und die Views aus B ergeben sich direkt aus der Wahl von Vue Router. Gemeinsame Komponenten und Composables bleiben weitgehend unabhängig von der Routenkonfiguration; nur useSessionFilter() nutzt bewusst die Query-Parameter des Routers, damit Filter beim Neuladen und beim Teilen eines Links erhalten bleiben (siehe B). Neue Views müssen wir jedoch selbst registrieren und ihre Verlinkung prüfen. TypeScript-Prüfung und Build laufen über das vorhandene `npm run build` mit `vue-tsc` und Vite. Die spätere PWA-Erweiterung braucht zusätzliche Einrichtung. Rendering-Strategien werden gesondert in Schritt 2 entschieden.
 
 ## Quellen
 

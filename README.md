@@ -91,7 +91,8 @@ Die Detailseiten zeigen bisher nur die übergebene ID. Die zugehörigen Daten un
 
 | Adresse | Inhalt |
 | --- | --- |
-| `/` | Weiterleitung zu `/sessions` |
+| `/` | Weiterleitung zu `/branding` |
+| `/branding` | Test-Branding mit gewählten Design-Tokens |
 | `/sessions` | Sessionübersicht mit Anzahl der Sessions |
 | `/sessions/:id` | Platzhalter für eine Session-Detailseite |
 | `/speakers` | Platzhalter für die Speakerübersicht |
