@@ -130,3 +130,38 @@
 **Zweck:** Ich brauchte Hilfe beim Button zum Hinzufügen und Entfernen und beim Test, ob Button und Seite denselben Store nutzen
 
 **Ergebnis:** toggle() und Template erklärt; Test erfolgreich (Auswahl erscheint in Mein Programm)
+
+---
+
+### 05.11.2026 – Speichern und Einlesen mit localStorage
+
+**Prompt:**
+> Machen wir weiter mit Speichern und Einlesen mit localStorage
+
+**Zweck:** Die Auswahl in „Mein Programm“ sollte einen Reload überleben (Kernanforderung von Teil E). Ich wollte das in kleinen Schritten selbst umsetzen
+
+**Ergebnis:** Anleitung in vier Stücken (save, parseStoredIds, init mit isReady-Sperre, onMounted in App.vue) mit Lücken und Testtabelle
+
+---
+
+### 05.11.2026 – Verständnisfragen zu localStorage
+
+**Prompts:**
+> Sag es mir (zur Leitfrage, warum save() gezielt aufgerufen wird statt mit watch)
+
+> Was passiert dann? (zur Leitfrage, was ohne isReady-Sperre in localStorage steht)
+
+**Zweck:** Ich wollte die Begründungen hinter den Entscheidungen im Store verstehen, um sie im Review erklären zu können
+
+**Ergebnis:** watch würde auch beim Einlesen und bei Änderungen aus anderen Tabs speichern, die Tabs würden sich gegenseitig überschreiben; ohne Sperre überschreibt die leere Startliste die gespeicherte Auswahl
+
+---
+
+### 05.11.2026 – Abgleich zwischen Tabs
+
+**Prompts:**
+> Gib mir nun Hilfestellung beim Abgleich zwischen Tabs
+
+**Zweck:** Änderungen in einem Tab sollten in anderen offenen Tabs sichtbar werden, ohne dass sich die Tabs gegenseitig überschreiben. Nach meinem Versuch habe ich mir die Lösung geben lassen, um sie nachzuvollziehen
+
+**Ergebnis:** Erklärung des storage-Events; Fehler erklärt (Ergebnis von parseStoredIds nicht aufgefangen, push hängt das Event-Objekt an statt die Liste zu ersetzen); Lösung mit Erklärung jeder Zeile

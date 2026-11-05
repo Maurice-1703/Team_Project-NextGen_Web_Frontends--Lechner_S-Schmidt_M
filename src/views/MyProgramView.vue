@@ -2,7 +2,7 @@
 import { useMyProgram } from '../stores/myProgram'
 
 // Destructuring -> selectedIds direkt im Template nutzbar
-const { selectedIds } = useMyProgram()
+const { selectedIds, storageError } = useMyProgram()
 </script>
 
 <template>
@@ -10,5 +10,6 @@ const { selectedIds } = useMyProgram()
     <h1>Mein Couch-Programm</h1>
     <!-- vorerst nur zum Testen: rohe ID-Liste -->
     <p>Ausgewählte IDs: {{ selectedIds }}</p>
+    <p>{{ storageError }}</p>
   </section>
 </template>
