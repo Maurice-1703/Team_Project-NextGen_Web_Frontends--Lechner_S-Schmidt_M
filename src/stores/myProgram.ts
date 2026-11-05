@@ -121,7 +121,7 @@ export function createMyProgramStore() {
     // bereits ausgewählt -> ignorieren, damit keine Duplikate entstehen
     // neues Array statt push -> jede echte Änderung ist eine neue Liste, später leichter zu speichern
     function addSession(id: string): void {
-        if (!isReady) return
+        if (!isReady.value) return
         if (!getSessionById(id)) return
         if (isSelected(id)) return
         selectedIds.value = [...selectedIds.value, id]
@@ -132,7 +132,7 @@ export function createMyProgramStore() {
     // filter behält nur IDs, die NICHT der zu entfernenden ID entsprechen
     // neues Array zuweisen -> ref meldet die Änderung, abhängige Komponenten zeichnen neu
     function removeSession(id: string): void {
-        if (!isReady) return
+        if (!isReady.value) return
         if (!isSelected(id)) return
         selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id)
         save()
