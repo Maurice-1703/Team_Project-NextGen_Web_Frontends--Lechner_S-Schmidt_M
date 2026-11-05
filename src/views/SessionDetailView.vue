@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useConferenceData } from '../composables/useConferenceData'
+import AddToProgramButton from '../components/feature/AddToProgramButton.vue';
 
 // id kommt vom Router (props: true in router/index.ts)
 const props = defineProps<{ id: string }>()
@@ -33,6 +34,7 @@ const speakers = computed(() => getSpeakersBySessionId(props.id))
   <!-- Fall 1: Session gefunden -->
   <article v-if="session">
     <h1>{{ session.title }}</h1>
+    <add-to-program-button :sessionId="session.id"/>
     <p>{{ session.abstract }}</p>
 
     <dl>
