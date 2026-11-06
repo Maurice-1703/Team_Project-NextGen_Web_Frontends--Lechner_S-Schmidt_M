@@ -7,6 +7,8 @@ const props = defineProps<{ sessionId: string }>()
 
 // derselbe Store wie überall in der App
 const program = useMyProgram()
+// isReady herausziehen -> Ref auf oberster Ebene, im Template ohne .value nutzbar
+const { isReady } = program
 
 // ausgewählt? -> computed, damit sich der Button bei jeder Änderung selbst aktualisiert
 const selected = computed(() => program.isSelected(props.sessionId))
@@ -23,7 +25,7 @@ function toggle(): void {
 </script>
 
 <template>
-  <button type="button" @click="toggle">
+  <button type="button" :disabled="!isReady" @click="toggle">
     <!-- Beschriftung je nach Zustand -> ternärer Operator: bedingung ? wennJa : wennNein -->
     {{ selected ? 'Aus meinem Programm entfernen' : 'Zu meinem Programm hinzufügen' }}
   </button>
