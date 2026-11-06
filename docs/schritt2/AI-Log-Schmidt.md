@@ -165,3 +165,53 @@
 **Zweck:** Änderungen in einem Tab sollten in anderen offenen Tabs sichtbar werden, ohne dass sich die Tabs gegenseitig überschreiben. Nach meinem Versuch habe ich mir die Lösung geben lassen, um sie nachzuvollziehen
 
 **Ergebnis:** Erklärung des storage-Events; Fehler erklärt (Ergebnis von parseStoredIds nicht aufgefangen, push hängt das Event-Objekt an statt die Liste zu ersetzen); Lösung mit Erklärung jeder Zeile
+
+---
+ 
+### 06.11.2026 – Anleitung für die Seite „Mein Programm“
+ 
+**Prompt:**
+> Okay ich würde nun mit MyProgramView weitermachen, dazu bräuchte ich Anleitung und Hilfestellung
+ 
+**Zweck:** Ich wollte die Testversion der Seite durch die richtige Ansicht ersetzen und brauchte dafür eine Schritt-für-Schritt-Anleitung
+ 
+**Ergebnis:** Anleitung mit Script-Teil, Gerüst für die vier Zustände (Laden, Fehler, leer, Liste) mit Lücken zum Selbstausfüllen, Wiederverwendung des Buttons zum Entfernen, optionaler Gruppierung nach Tag und Testtabelle
+
+---
+ 
+### 06.11.2026 – „Mein Programm“ umsetzen
+ 
+**Prompts:**
+> Hier mein bisheriger Lösungsansatz für die Program View: (mein Code für MyProgramView.vue, hier gekürzt auf den Listeneintrag)
+ 
+```html
+<li v-for="session in selectedSessions" :key="session.id">
+  <RouterLink :to="{name: 'session-detail'}">{{ session.title }}</RouterLink>
+  <dt>Zeit</dt>
+  <dd>{{ session.startTime }}-{{ session.endTime }}</dd>
+ 
+  <dt>Raum</dt>
+  <dd>{{ getRoomById(session.roomId) }}</dd>
+ 
+  <AddToProgramButton :session-id="session.id" />
+</li>
+```
+ 
+> Mir wird noch ein "Missing required param 'id' " Error angezeigt
+ 
+> (überarbeitete Version, wieder ganze Datei, hier gekürzt auf die geänderten Stellen)
+ 
+```html
+<RouterLink :to="{name: 'session-detail', params: {id: session.id}}">{{ session.title }}</RouterLink>
+<dl>
+  <dt>Zeit</dt>
+  <dd>{{ session.startTime }}-{{ session.endTime }}</dd>
+ 
+  <dt>Raum</dt>
+  <dd>{{ getRoomById(session.roomId)?.name ?? "Raum unbekannt" }}</dd>
+</dl>
+```
+ 
+**Zweck:** Ich wollte meine Umsetzung prüfen lassen und den Fehler beim Link zur Detailseite verstehen
+ 
+**Ergebnis:** Fehler erklärt (Route `/sessions/:id` braucht den Parameter `id`, sonst kann der Router keine URL bauen); weitere Hinweise als Leitfragen: `dt`/`dd` nur innerhalb von `dl` gültig, `getRoomById` liefert ein Objekt statt des Namens. Beides habe ich selbst korrigiert, die zweite Version läuft fehlerfrei durch `vue-tsc`. Offen ist noch die Anzeige des Tages
