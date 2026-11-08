@@ -50,7 +50,7 @@ Wir wählen **SSG** für den Seiteninhalt. Der Button-Zustand wird erst nach dem
 
 ### Konsequenzen
 
-Der Button rendert beim Build und beim ersten Rendern im Browser zunächst „nicht ausgewählt“. Erst danach übernimmt er den gespeicherten Zustand. So bleibt die Hydration konsistent, der Nutzer sieht den Zustand aber einen Moment verzögert. Bei einem echten Backend würden wir diese Entscheidung zugunsten von ISR neu bewerten.
+Der Button rendert beim Build und beim ersten Rendern im Browser zunächst „nicht ausgewählt“ und ist bis dahin deaktiviert, damit kein Klick auf einen veralteten Zustand möglich ist. Erst danach übernimmt er den gespeicherten Zustand. So bleibt die Hydration konsistent, der Nutzer sieht den Zustand aber einen Moment verzögert. Bei einem echten Backend würden wir diese Entscheidung zugunsten von ISR neu bewerten.
 
 ## 3. Session-Übersicht mit Filtern (`/sessions`)
 
@@ -94,7 +94,7 @@ Beim Build gibt es keine Query. Würde der Browser beim ersten Rendern sofort fi
 
 ### Entscheidung
 
-Wir wählen **CSR für den Inhalt**. `vite-ssg` erzeugt für diese Route nur eine Hülle mit Überschrift und leerem Zustand. Die Liste baut der Store nach dem Mounten auf. Die Seite ist personalisiert und nur im Browser bekannt, also ist CSR hier die einzige Strategie, die ohne Backend korrekt funktioniert.
+Wir wählen **CSR für den Inhalt**. `vite-ssg` erzeugt für diese Route nur eine Hülle mit Überschrift und dem Hinweis „Deine Auswahl wird geladen …“. Einen leeren Zustand rendern wir bewusst nicht vor, weil der Build nicht wissen kann, ob Sessions gespeichert sind. Die Liste baut der Store nach dem Mounten auf. Die Seite ist personalisiert und nur im Browser bekannt, also ist CSR hier die einzige Strategie, die ohne Backend korrekt funktioniert.
 
 ### Konsequenzen
 
