@@ -93,7 +93,7 @@ Die Detailseiten zeigen bisher nur die übergebene ID. Die zugehörigen Daten un
 | --- | --- |
 | `/` | Weiterleitung zu `/branding` |
 | `/branding` | Test-Branding mit gewählten Design-Tokens |
-| `/sessions` | Sessionübersicht mit Anzahl der Sessions |
+| `/sessions` | Sessionübersicht mit Filtern nach Track, Konferenztag und Level |
 | `/sessions/:id` | Platzhalter für eine Session-Detailseite |
 | `/speakers` | Platzhalter für die Speakerübersicht |
 | `/speakers/:id` | Platzhalter für ein Speakerprofil |
@@ -123,9 +123,17 @@ src/
 
 Der Datensatz liegt unter `src/assets/data/conference-data.json` und wird inhaltlich unverändert verwendet.
 
+### Rendering der Sessionübersicht
+
+`npm run build` prüft TypeScript und erzeugt mit `vite-ssg` die statischen
+Seiten in `dist/`. Die HTML-Datei für `/sessions` enthält alle 20 Sessions.
+Nach der Hydration liest `useSessionFilter()` die URL-Parameter `track`,
+`day` und `level` und wendet die Filter im Browser an. Änderungen am
+Konferenzdatensatz werden mit dem nächsten Build und Deploy sichtbar.
+
 ## Geplante Erweiterungen
 
-- Session-Suche und Filter
+- Session-Suche
 - Vollständige Session-Details und Speakerprofile
 - Persönliche Session-Auswahl mit Speicherung in `localStorage`
 - PWA und Offline-Verfügbarkeit
