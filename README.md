@@ -1,142 +1,104 @@
 # CouchCoding
 
-CouchCoding ist unsere Konferenzplattform für die fiktive Frontend-Konferenz „FrontendNow“.
+CouchCoding ist die Konferenzplattform für die fiktive Frontend-Konferenz **FrontendNow**. Teilnehmende können das Konferenzprogramm filtern, Sessiondetails und Speakerprofile ansehen und sich ein persönliches Programm zusammenstellen.
 
-Aktuell enthält das Projekt das Grundgerüst aus Schritt 1: Branding, Design-Tokens, Navigation, Platzhalterseiten und das Einlesen des vorgegebenen Konferenzdatensatzes.
+## Funktionsumfang
 
-## Voraussetzungen
+- **Sessionübersicht** mit 20 Sessions und kombinierbaren Filtern für Track, Konferenztag und Level. Die Auswahl steht in der URL und lässt sich als Link teilen.
+- **Session-Detailseiten** mit Titel, Abstract, Datum, Uhrzeit, Raum, Track, Level, Format und Links zu den beteiligten Speakern.
+- **Speakerübersicht und 18 Speakerprofile** mit Name, beruflichem Titel, Firma, Bio und Links zu den gehaltenen Sessions.
+- **Mein Couch-Programm** zum Hinzufügen und Entfernen von Sessions. Die Auswahl wird im Browser gespeichert, nach einem Reload wiederhergestellt und nach Konferenztag und Startzeit angezeigt.
+- **Gemeinsames Branding** mit Navigation, Design-Tokens und einem Farbschema, das der Systemeinstellung folgt.
 
-Empfohlene Entwicklungsumgebung:
+## Voraussetzungen und Installation
 
-- Node.js **24.22.0 LTS**
-- npm **11.19.1**
-
-Node.js 24 erfüllt die Anforderungen der verwendeten Abhängigkeiten. Informationen zu den unterstützten Versionen stehen in der [Node.js-Releaseübersicht](https://nodejs.org/en/about/previous-releases).
-
-Die installierten Versionen lassen sich so prüfen:
+Empfohlen sind Node.js **24.22.0** und npm **11.19.1**. Führe die folgenden Befehle im Projektordner aus, in dem die `package.json` liegt.
 
 ```bash
 node --version
 npm --version
+npm ci
 ```
 
-## Installation
+`npm ci` installiert die Abhängigkeiten einschließlich `vite-ssg` anhand der `package-lock.json`.
 
-Alle folgenden Befehle im Projektordner ausführen, in dem die `package.json` liegt.
+## Entwicklung und lokale Vorschau
 
-Abhängigkeiten installieren:
-
-```bash
-npm install
-```
-
-Bei einem frisch geklonten Repository kann alternativ `npm ci` verwendet werden. Dabei werden die Paketversionen aus der vorhandenen `package-lock.json` installiert.
-
-## Anwendung starten
+Für die Entwicklung startest du den Vite-Server.
 
 ```bash
 npm run dev
 ```
 
-Anschließend die im Terminal angezeigte Adresse im Browser öffnen. Standardmäßig ist das [http://localhost:5173](http://localhost:5173).
+Öffne die Adresse aus dem Terminal. Standardmäßig ist das `http://localhost:5173`. Der Server übernimmt gespeicherte Änderungen automatisch.
 
-Der Entwicklungsserver bleibt während der Arbeit geöffnet. Gespeicherte Änderungen werden automatisch übernommen. Mit `Strg+C` wird der Server beendet.
-
-Unter Windows PowerShell können die Befehle mit `npm.cmd` ausgeführt werden, beispielsweise:
-
-```powershell
-npm.cmd run dev
-```
-
-## Build und lokale Vorschau
-
-TypeScript-Prüfung und Build ausführen:
+Für die Prüfung des Produktionsstands erzeugst du zuerst den Build und startest dann die Vorschau.
 
 ```bash
 npm run build
-```
-
-Der Build wird im Ordner `dist/` erzeugt.
-
-Den gebauten Stand anschließend lokal ansehen:
-
-```bash
 npm run preview
 ```
 
-Die Vorschau ist normalerweise unter [http://localhost:4173](http://localhost:4173) erreichbar. Maßgeblich ist die Adresse im Terminal. Weitere Informationen enthält die [Vite-Dokumentation zu Build und Vorschau](https://vite.dev/guide/static-deploy.html).
-
-## Technisches Setup
-
-- Vue 3 mit Composition API und `<script setup>`
-- TypeScript
-- Vite als Entwicklungsserver und Build-Werkzeug
-- Vue Router für die Navigation
-- CSS Custom Properties für die Design-Tokens
-
-Die Anwendung benötigt kein eigenes Backend und keinen Login.
-
-## Aktueller Funktionsumfang
-
-- Gemeinsamer Seitenrahmen mit CouchCoding-Branding und Navigation
-- Eingebundene Design-Tokens und globale Styles
-- Schreibgeschützter Zugriff auf die Konferenzdaten über `useConferenceData()`
-- Anzeige der 20 Sessions als Nachweis, dass der Datensatz eingelesen wird
-- Platzhalter für Übersichten, Detailseiten und „Mein Couch-Programm“
-- Fehlerseite für unbekannte URL-Pfade
-
-Die Detailseiten zeigen bisher nur die übergebene ID. Die zugehörigen Daten und die Prüfung auf gültige IDs werden später ergänzt.
+`npm run build` prüft TypeScript und erzeugt mit `vite-ssg` die statischen Seiten in `dist/`. Die Vorschau ist normalerweise unter `http://localhost:4173` erreichbar. Beide Server lassen sich mit `Ctrl+C` beenden. In Windows PowerShell kannst du bei Bedarf `npm.cmd` anstelle von `npm` verwenden.
 
 ## Routen
 
 | Adresse | Inhalt |
 | --- | --- |
 | `/` | Weiterleitung zu `/branding` |
-| `/branding` | Test-Branding mit gewählten Design-Tokens |
-| `/sessions` | Sessionübersicht mit Filtern nach Track, Konferenztag und Level |
-| `/sessions/:id` | Platzhalter für eine Session-Detailseite |
-| `/speakers` | Platzhalter für die Speakerübersicht |
-| `/speakers/:id` | Platzhalter für ein Speakerprofil |
-| `/my-program` | Platzhalter für „Mein Couch-Programm“ |
-| Sonstige Pfade | Fehlerseite |
+| `/branding` | Beispielansicht für Branding und Design-Tokens |
+| `/sessions` | Übersicht mit Filtern nach Track, Konferenztag und Level |
+| `/sessions/:id` | Sessiondetails mit Speakerlinks und Programmauswahl |
+| `/speakers` | Übersicht aller Speaker mit Links zu ihren Profilen |
+| `/speakers/:id` | Speakerprofil mit Bio und Links zu den gehaltenen Sessions |
+| `/my-program` | Persönliches Programm mit den ausgewählten Sessions |
+| Sonstige Pfade | Fehleransicht der App |
 
-Beispiele für Detailrouten sind `/sessions/s02` und `/speakers/sp01`.
+## Rendering in Schritt 2
+
+| Anwendungsteil | Beim Build | Im Browser |
+| --- | --- | --- |
+| Sessionübersicht | `dist/sessions.html` enthält die vollständige Liste mit 20 Sessions. | Nach dem Mounten liest `useSessionFilter()` die URL-Parameter `track`, `day` und `level`. Die aktiven Filter werden mit UND verknüpft. |
+| Sessiondetails | Für jede Session entsteht eine eigene HTML-Datei mit den Detaildaten und Speakerlinks. | Der Programm-Button übernimmt den persönlichen Auswahlzustand, sobald die gespeicherte Auswahl geladen ist. Bis dahin ist er deaktiviert. |
+| Speakerübersicht und Profile | Die Übersicht und alle 18 Profile werden statisch generiert. Name, Bio und Sessionlinks stehen bereits im HTML. | Vue übernimmt nach der Hydration die Navigation innerhalb der App. |
+| Mein Couch-Programm | Die HTML-Datei enthält die Überschrift und den Hinweis „Deine Auswahl wird geladen …“. | Die persönliche Liste wird nach dem Mounten aus der gespeicherten Auswahl aufgebaut. |
+
+Die IDs für die statischen Session- und Speaker-Routen stammen aus `useConferenceData()`. Änderungen an den Konferenzdaten werden nach einem neuen Build und Deploy sichtbar. [Rendering-ADR für Schritt 2](docs/schritt2/01-rendering-strategie-adr.md)
+
+## Daten und persönliches Programm
+
+Die Konferenzdaten liegen in `src/assets/data/conference-data.json`. `useConferenceData()` stellt sie schreibgeschützt bereit und löst Beziehungen zwischen Sessions, Speakern, Tracks und Räumen über IDs auf.
+
+„Mein Couch-Programm“ speichert die ausgewählten Session-IDs unter `frontendnow:2026:my-program:v1` in `localStorage`. Der Store liest die Auswahl nach dem Mounten ein und übernimmt Änderungen aus anderen Tabs derselben Origin. Das Projekt verwendet Vue 3, TypeScript, Vue Router, Vite und `vite-ssg`. Für das persönliche Programm genügen Browser-Speicher und der gemeinsame Vue-Store.
+
+## Produktionsstand kurz testen
+
+1. **Filter:** Öffne `/sessions`. Die Übersicht zeigt 20 Sessions. Öffne anschließend `/sessions?track=rendering-performance&day=2026-09-15&level=Experte`. Nach dem Laden sollte nur die Session `s10` erscheinen.
+2. **Verlinkung:** Öffne `/speakers/sp01`, folge einem Sessionlink und klicke auf der Detailseite wieder auf **Mara Lindqvist**. Der Seitenquelltext von `/speakers/sp01` enthält bereits das Profil und seine Sessionlinks.
+3. **Programmauswahl:** Füge auf einer Session-Detailseite eine Session hinzu. Öffne `/my-program`, lade die Seite neu und prüfe, ob die Session weiterhin angezeigt wird. Entferne sie anschließend wieder.
 
 ## Projektstruktur
 
 ```text
-docs/schritt1/        Konzepte und Architekturentscheidungen
-tokens/              Design-Tokens
+docs/schritt1/        Branding, Architektur, State-Management und Technologie
+docs/schritt2/        Rendering-ADR und persönliche AI-Logs
+tokens/              Design-Tokens für Farben, Typografie und Abstände
 src/
-  assets/data/       Vorgegebener Konferenzdatensatz
+  assets/data/       Konferenzdatensatz
   components/
     base/            Allgemeine UI-Bausteine
-    feature/         Komponenten mit Konferenzbezug
+    feature/         Komponenten für Sessions, Speaker und Programmauswahl
     layout/          Seitenrahmen, Header und Navigation
-  composables/       Wiederverwendbare Logik und Datenzugriff
-  router/            Routenkonfiguration
-  stores/            Persönlicher Programmzustand
-  styles/            Globale Styles
+  composables/       Datenzugriff und Session-Filter
+  router/            Routendefinitionen
+  stores/            Zustand für „Mein Couch-Programm“
+  styles/            Globale Basisstyles
   types/             TypeScript-Datenmodelle
-  views/             Seiten der Anwendung
+  views/             Übersichten, Detailseiten und persönliches Programm
 ```
-
-Der Datensatz liegt unter `src/assets/data/conference-data.json` und wird inhaltlich unverändert verwendet.
-
-### Rendering der Sessionübersicht
-
-`npm run build` prüft TypeScript und erzeugt mit `vite-ssg` die statischen
-Seiten in `dist/`. Die HTML-Datei für `/sessions` enthält alle 20 Sessions.
-Nach der Hydration liest `useSessionFilter()` die URL-Parameter `track`,
-`day` und `level` und wendet die Filter im Browser an. Änderungen am
-Konferenzdatensatz werden mit dem nächsten Build und Deploy sichtbar.
 
 ## Geplante Erweiterungen
 
 - Session-Suche
-- Vollständige Session-Details und Speakerprofile
-- Persönliche Session-Auswahl mit Speicherung in `localStorage`
-- PWA und Offline-Verfügbarkeit
+- PWA und Offline-Verfügbarkeit der App
 - Manueller Theme-Umschalter
-
-Die Entscheidungen zu Branding, Ordnerstruktur, State-Management und Technologie-Setup sind unter `docs/schritt1/` dokumentiert.
