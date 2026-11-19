@@ -4,6 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CouchCoding | FrontendNow</title>
+
+    <!-- Kurzbeschreibung der Seite
+         - gleicher Text wie "description" im Manifest
+         - wird u. a. von Suchmaschinen und Link-Vorschauen angezeigt -->
+    <meta
+      name="description"
+      content="CouchCoding begleitet Teilnehmende der zweitägigen FrontendNow-Konferenz"
+    />
+
+    <!-- Farbe der Browser-/Titelleiste, abhängig vom Farbschema des Systems
+         - das Manifest kennt nur EINE theme_color, deshalb hier zwei Varianten
+         - media="(prefers-color-scheme: …)" -> Browser wählt die passende Zeile selbst
+         - hell: #7a55b3 = --flieder-600 (--color-accent im Light Theme), wie im Manifest
+         - dunkel: #1a1420 = --cocoa-950 (--color-bg im Dark Theme)
+           -> dunkle Leiste statt kräftigem Lila, damit im abgedunkelten Saal nichts blendet -->
+    <meta name="theme-color" content="#7a55b3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1420" media="(prefers-color-scheme: dark)" />
+
+    <!-- Icon im Browser-Tab
+         - führender "/" -> Pfad ab Wurzel der Seite, Datei liegt in public/ -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Icon für iPhone/iPad ("Zum Home-Bildschirm")
+         - Safari liest die Icons aus dem Manifest nicht zuverlässig -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
   </head>
   <body>
     <div id="app"></div>

@@ -15,7 +15,7 @@ export default defineConfig({
       // - wird beim Build als dist/manifest.webmanifest erzeugt
       // - das Plugin fügt den <link rel="manifest"> automatisch in jede HTML ein
       manifest: {
-        name: "CouchCoding",
+        name: "CouchCoding | FrontendNow",
         short_name: "CouchCoding",
         description: "CouchCoding begleitet Teilnehmende der zweitägigen FrontendNow-Konferenz",
         lang: "de",
