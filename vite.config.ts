@@ -65,7 +65,7 @@ export default defineConfig({
 
           // Konzept B: App-Shell – Cache First durch versionierten Precache
           "*.html",
-          "assets/*.{js, css}"
+          "assets/*.{js,css}"
         ]
       }
     }),
