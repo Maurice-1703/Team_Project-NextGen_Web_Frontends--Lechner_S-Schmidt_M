@@ -49,6 +49,25 @@ export default defineConfig({
           }
         ]
       },
+
+      // Workbox-Einstellungen: daraus erzeugt das Plugin beim Build dist/sw.js
+      workbox: {
+         // globPatterns = Liste von Dateimustern
+        // - alle Dateien in dist/, die auf ein Muster passen, kommen in den Precache
+        // - Precache = Cache First, befüllt schon bei der Installation des Service Workers
+        // - ein Eintrag pro Datentyp -> jede Regel im Code einer Zeile im Konzept B zuordenbar
+        globPatterns: [
+          // Konzept B: Statische Assets – Cache First durch versionierten Precache
+          // - Icons und Favicon aus public/ (Vite kopiert sie unverändert in die Wurzel von dist/)
+          // - *       -> beliebiger Dateiname, aber OHNE "/" -> nur Wurzelverzeichnis von dist/
+          // - {a,b,c} -> eine der aufgezählten Endungen
+          "*.{png,ico,svg}",
+
+          // Konzept B: App-Shell – Cache First durch versionierten Precache
+          "*.html",
+          "assets/*.{js, css}"
+        ]
+      }
     }),
   ],
 })
