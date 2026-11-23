@@ -9,6 +9,7 @@ CouchCoding ist die Konferenzplattform für die fiktive Frontend-Konferenz **Fro
 - **Speakerübersicht und 18 Speakerprofile** mit Name, beruflichem Titel, Firma, Bio und Links zu den gehaltenen Sessions.
 - **Mein Couch-Programm** zum Hinzufügen und Entfernen von Sessions. Die Auswahl wird im Browser gespeichert, nach einem Reload wiederhergestellt und nach Konferenztag und Startzeit angezeigt.
 - **Gemeinsames Branding** mit Navigation, Design-Tokens und einem Farbschema, das der Systemeinstellung folgt.
+- **Offline-Verfügbarkeit als PWA:** Nach dem ersten Online-Besuch sind alle Seiten einschließlich „Mein Couch-Programm“ auch ohne Netz erreichbar. Die App lässt sich auf dem Startbildschirm installieren.
 
 ## Voraussetzungen und Installation
 
@@ -64,6 +65,25 @@ npm run preview
 
 Die IDs für die statischen Session- und Speaker-Routen stammen aus `useConferenceData()`. Änderungen an den Konferenzdaten werden nach einem neuen Build und Deploy sichtbar. [Rendering-ADR für Schritt 2](docs/schritt2/01-rendering-strategie-adr.md)
 
+## Offline-Betrieb in Schritt 3
+
+`vite-plugin-pwa` erzeugt beim Build das Web App Manifest und einen Service Worker. Der Service Worker legt beim ersten Besuch alle Dateien aus `dist/` in den Precache: App-Code, Styles, Icons, alle vorgerenderten Übersichts- und Detailseiten. Danach liefert er sie aus dem Cache, auch ohne Netz. Gefilterte URLs wie `/sessions?track=…` verwenden die gecachte Übersicht, weil der Service Worker die Filter-Parameter beim Nachschlagen ignoriert. Neue Inhalte kommen mit dem nächsten Deploy: Der neue Service Worker aktualisiert sich automatisch (`registerType: "autoUpdate"`).
+
+### Offline-Verhalten testen
+
+Der Service Worker ist nur im Produktionsstand aktiv, nicht mit `npm run dev`.
+
+```bash
+npm run build
+npm run preview
+```
+
+1. `http://localhost:4173` in Chrome öffnen, DevTools → **Application** → **Storage** → **Clear site data**, damit kein alter Service Worker aktiv ist.
+2. Seite neu laden. Unter **Application** → **Service Workers** steht „activated and is running“.
+3. Im Reiter **Network** **Offline** anhaken und `/sessions` neu laden. In der Spalte „Size“ steht „(ServiceWorker)“.
+
+Ein Erstbesuch ohne Netz ist nicht möglich, weil der Service Worker erst beim ersten Online-Besuch installiert wird. Konzept, Entscheidungsprotokoll mit Testszenarien und Nachweis: [docs/schritt3](docs/schritt3/)
+
 ## Daten und persönliches Programm
 
 Die Konferenzdaten liegen in `src/assets/data/conference-data.json`. `useConferenceData()` stellt sie schreibgeschützt bereit und löst Beziehungen zwischen Sessions, Speakern, Tracks und Räumen über IDs auf.
@@ -81,6 +101,7 @@ Die Konferenzdaten liegen in `src/assets/data/conference-data.json`. `useConfere
 ```text
 docs/schritt1/        Branding, Architektur, State-Management und Technologie
 docs/schritt2/        Rendering-ADR und persönliche AI-Logs
+docs/schritt3/        PWA-Setup, Offline-Konzept, Entscheidungsprotokoll, Nachweis und AI-Logs
 tokens/              Design-Tokens für Farben, Typografie und Abstände
 src/
   assets/data/       Konferenzdatensatz
@@ -99,5 +120,4 @@ src/
 ## Geplante Erweiterungen
 
 - Session-Suche
-- PWA und Offline-Verfügbarkeit der App
 - Manueller Theme-Umschalter
