@@ -10,7 +10,7 @@ CouchCoding begleitet Teilnehmende der zweitägigen FrontendNow-Konferenz. Im ü
 | --- | --- | --- |
 | Session-Daten | **Cache First durch versionierten Precache** | `sessions/*.html` und die Daten im JS-Bundle; Änderungen erfordern einen Build. |
 | Speaker-Daten | **Cache First durch versionierten Precache** | `speakers/*.html`; Profile sollen auch per Direktlink offline erreichbar sein. |
-| App-Shell | **Cache First durch versionierten Precache** | HTML für `/`, `/branding`, `/sessions`, `/speakers`, `/my-program` sowie JS und CSS; ohne sie zeigt keine Seite Inhalte. |
+| App-Shell | **Cache First durch versionierten Precache** | HTML für `/`, `/sessions`, `/speakers`, `/my-program` sowie JS und CSS; ohne sie zeigt keine Seite Inhalte. |
 | Statische Assets | **Cache First durch versionierten Precache** | Manifest, lokale Icons und Schriftdateien bei lokaler Einbindung. |
 | „Mein Couch-Programm“ | **`localStorage` + gecachte App-Shell** | Der Store speichert unter `frontendnow:2026:my-program:v1` nur Session-IDs. Nach dem Mounten werden diese mit den gecachten Session-Daten aufgelöst; der Service Worker speichert keine persönlichen Daten. |
  

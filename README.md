@@ -45,8 +45,7 @@ npm run preview
 
 | Adresse | Inhalt |
 | --- | --- |
-| `/` | Weiterleitung zu `/branding` |
-| `/branding` | Beispielansicht für Branding und Design-Tokens |
+| `/` | Weiterleitung zu `/sessions` |
 | `/sessions` | Übersicht mit Filtern nach Track, Konferenztag und Level |
 | `/sessions/:id` | Sessiondetails mit Speakerlinks und Programmauswahl |
 | `/speakers` | Übersicht aller Speaker mit Links zu ihren Profilen |

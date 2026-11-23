@@ -4,7 +4,6 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <nav aria-label="Hauptnavigation">
-    <RouterLink to="/branding">Branding</RouterLink>
     <RouterLink to="/sessions">Sessions</RouterLink>
     <RouterLink to="/speakers">Speaker</RouterLink>
     <RouterLink to="/my-program">Mein Couch-Programm</RouterLink>
