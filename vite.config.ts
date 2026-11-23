@@ -59,14 +59,15 @@ export default defineConfig({
           // Konzept B: App-Shell und vorgerenderte Übersichtsseiten
           "*.html",
           "assets/*.{js,css}",
+          "registerSW.js",      // - registriert den Service Worker, wird von jeder HTML-Seite geladen
 
-          // Konzept B: Session- und Speaker-Details bereits beim Installieren cachen
+          // Konzept B: Session- und Speaker-Details
           "sessions/*.html",
           "speakers/*.html",
         ],
 
-        // Konzept B: Gefilterte URLs verwenden dieselbe gecachte Session-Übersicht.
-        // Vue liest die Filter weiterhin aus der URL.
+        // Konzept B: Gefilterte URLs verwenden dieselbe gecachte Session-Übersicht
+        // Vue liest die Filter weiterhin aus der URL
         ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^(track|day|level)$/],
       },
     }),
