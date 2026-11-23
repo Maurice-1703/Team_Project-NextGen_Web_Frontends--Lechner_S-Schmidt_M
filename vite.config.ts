@@ -52,22 +52,23 @@ export default defineConfig({
 
       // Workbox-Einstellungen: daraus erzeugt das Plugin beim Build dist/sw.js
       workbox: {
-         // globPatterns = Liste von Dateimustern
-        // - alle Dateien in dist/, die auf ein Muster passen, kommen in den Precache
-        // - Precache = Cache First, befüllt schon bei der Installation des Service Workers
-        // - ein Eintrag pro Datentyp -> jede Regel im Code einer Zeile im Konzept B zuordenbar
         globPatterns: [
-          // Konzept B: Statische Assets – Cache First durch versionierten Precache
-          // - Icons und Favicon aus public/ (Vite kopiert sie unverändert in die Wurzel von dist/)
-          // - *       -> beliebiger Dateiname, aber OHNE "/" -> nur Wurzelverzeichnis von dist/
-          // - {a,b,c} -> eine der aufgezählten Endungen
+          // Konzept B: Statische Assets wie Icons und Favicon
           "*.{png,ico,svg}",
 
-          // Konzept B: App-Shell – Cache First durch versionierten Precache
+          // Konzept B: App-Shell und vorgerenderte Übersichtsseiten
           "*.html",
-          "assets/*.{js,css}"
-        ]
-      }
+          "assets/*.{js,css}",
+
+          // Konzept B: Session- und Speaker-Details bereits beim Installieren cachen
+          "sessions/*.html",
+          "speakers/*.html",
+        ],
+
+        // Konzept B: Gefilterte URLs verwenden dieselbe gecachte Session-Übersicht.
+        // Vue liest die Filter weiterhin aus der URL.
+        ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^(track|day|level)$/],
+      },
     }),
   ],
 })
