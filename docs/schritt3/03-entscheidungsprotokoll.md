@@ -24,7 +24,7 @@ Wir wählen **Option 5** für alle Datentypen aus Konzept B: App-Shell, Session-
  
 - Nach einem erfolgreichen Online-Besuch sind alle Seiten offline verfügbar, auch nie einzeln geöffnete Detailseiten.
 - HTML und JS-Bundle stammen immer aus demselben Build; ein Hydration-Mismatch durch unterschiedliche Datenstände ist ausgeschlossen.
-- Der erste Besuch lädt einmalig alle Dateien vorab (derzeit 19 Einträge, ca. 300 KB).
+- Der erste Besuch lädt einmalig alle Dateien vorab (derzeit 53 Einträge, ca. 422 KB).
 - Programmänderungen erreichen Nutzer nur über einen neuen Build. Mit `autoUpdate` lädt die Seite danach einmal neu; Filter (URL) und Auswahl (`localStorage`) bleiben erhalten.
 - Ohne vorherigen Online-Besuch ist kein Offline-Betrieb möglich (siehe Szenario iii).
 ## Testszenarien
@@ -33,9 +33,9 @@ Wir wählen **Option 5** für alle Datentypen aus Konzept B: App-Shell, Session-
  
 | | Maurice | Sam |
 | --- | --- | --- |
-| Betriebssystem | Windows [Version] | ??? [Version] |
-| Browser | Chrome [Version] | ??? [Browser + Version] |
-| Getesteter Stand | Commit `[ID]` | Commit `[ID]` |
+| Betriebssystem | Windows 11 Home [25H2] | [OS] [Version] |
+| Browser | Chrome [157.0.8103.79] | [Browser] [Version] |
+| Getesteter Stand | Commit `ebb2b52` | Commit `[ID]` |
 | Start | `npm run build` → `npm run preview` (`http://localhost:4173`) | ebenso |
  
 Vor jedem Szenario wurde unter DevTools → Application → Storage „Clear site data“ ausgeführt, damit kein alter Service Worker das Ergebnis verfälscht.
@@ -47,9 +47,9 @@ Vor jedem Szenario wurde unter DevTools → Application → Storage „Clear sit
 - **Ausgangslage:** Die App wurde einmal online unter `/sessions` geladen. In DevTools → Application → Service Workers ist `sw.js` als „activated and is running“ markiert, unter Cache Storage existiert `workbox-precache-…`.
 - **Aktion:** Network-Tab → „Offline“ aktiviert. `/sessions` neu geladen. Danach ein Filter gesetzt (z. B. Track), die gefilterte Seite neu geladen und über eine Session-Karte eine Detailseite geöffnet und neu geladen.
 - **Erwartet (laut Konzept B):** Die Übersicht erscheint mit allen 20 Sessions; im Network-Tab steht bei `sessions.html` „(ServiceWorker)“. Filtern funktioniert, weil es im Browser aus den Bundle-Daten berechnet wird. Detailseiten und gefilterte URLs funktionieren auch nach einem Reload.
-- **Beobachtet – Maurice:** [Was wurde konkret angezeigt? Wurde gestylt? Was stand in der Spalte „Size“? Was passierte beim Reload von `/sessions?track=…` und von `/sessions/s07`?]
+- **Beobachtet – Maurice:** Erster Test auf Commit `b941767`: Der Offline-Reload von `/sessions?track=frontend-architecture` zeigte zwar die gefilterte Liste („4 von 20 Sessions“), im Reiter Response stand jedoch die vorgerenderte Branding-Seite. Der Precache kannte die URL mit Parameter nicht, der Standard-Fallback lieferte `index.html`; die Console meldete einen Hydration-Mismatch, `registerSW.js` schlug mit `ERR_INTERNET_DISCONNECTED` fehl. Nach `fea7cc5` (`ignoreURLParametersMatching`) und `0fe78d4` (`registerSW.js` im Precache) enthielt die Response die echte `sessions.html`, die Console blieb leer. Alle Anfragen zeigten in der Spalte „Size“ „(ServiceWorker)“. Auch die nie zuvor geöffnete Detailseite `/sessions/[s17]` lud offline vollständig. Im Cache Storage lagen 53 Einträge.
 - **Beobachtet – Sam:** [ ]
-- **Bewertung:** [Stimmt das Verhalten mit Konzept B überein? Falls Reload der gefilterten URL oder der Detailseite fehlschlug: Ursache benennen (Detailseiten noch nicht im Precache bzw. `ignoreURLParametersMatching` noch nicht gesetzt), Korrektur-Commit nennen und Ergebnis des erneuten Tests ergänzen.]
+- **Bewertung:** - **Bewertung:** Das Verhalten entspricht Konzept B: Übersicht, gefilterte URLs und Detailseiten kommen offline aus dem Precache. Der erste Test deckte zwei Lücken auf (Query-Parameter, `registerSW.js`), die wir mit eigenen Commits geschlossen haben. Offen bleibt: Für nicht existierende Adressen (z. B. `/branding`) liefert der Fallback die Sessions-HTML, und Vue zeigt eine gemischte Seite aus Überschrift der Übersicht und NotFound-Text.
 ---
  
 ### Szenario ii – „Mein Couch-Programm“ offline
@@ -57,9 +57,9 @@ Vor jedem Szenario wurde unter DevTools → Application → Storage „Clear sit
 - **Ausgangslage:** Online wurden drei Sessions über die Detailseite zu „Mein Couch-Programm“ hinzugefügt (z. B. `s01`, `s07`, `s20`). In DevTools → Application → Local Storage steht unter `frontendnow:2026:my-program:v1` das ID-Array.
 - **Aktion:** Network-Tab → „Offline“ aktiviert. `/my-program` direkt aufgerufen und neu geladen. Danach eine Session entfernt und erneut neu geladen.
 - **Erwartet (laut Konzept B):** Die Seitenhülle kommt aus dem Precache, nach dem Mounten liest der Store die IDs aus `localStorage` und zeigt die drei Sessions nach Tag gruppiert an. Das Entfernen funktioniert offline und bleibt nach dem Reload erhalten, weil `localStorage` nicht vom Netz abhängt.
-- **Beobachtet – Maurice:** [Wurden die Sessions angezeigt? War kurz die leere Hülle zu sehen? Blieb das Entfernen nach dem Reload erhalten? Spalte „Size“ bei `my-program.html`?]
+- **Beobachtet – Maurice:** Nach dem Hinzufügen von [s01, s02, s03] stand das ID-Array unter `frontendnow:2026:my-program:v1` im Local Storage. Offline lud `/my-program` per Reload vollständig; `my-program.html` kam laut Spalte „Size“ aus dem Service Worker. Für einen Sekundenbruchteil war die vorgerenderte Hülle mit dem Ladehinweis zu sehen, danach erschienen die drei Sessions nach Tag gruppiert. Das Entfernen einer Session funktionierte offline und blieb nach einem weiteren Reload erhalten.
 - **Beobachtet – Sam:** [ ]
-- **Bewertung:** [Bestätigt das die Entscheidung, für „Mein Programm“ keine eigene Regel anzulegen? Gab es Unterschiede zwischen den Rechnern?]
+- **Bewertung:** Das bestätigt die Entscheidung aus Konzept B, für „Mein Couch-Programm“ keine eigene Caching-Regel anzulegen: Die Daten liegen in `localStorage` und sind unabhängig vom Netz, der Service Worker muss nur die Hülle liefern. Die kurz sichtbare Hülle entspricht der Rendering-ADR aus Schritt 2 (CSR nach dem Mounten); sie verhindert, dass beim Build eine falsche oder leere Auswahl als fertiges Programm ausgeliefert wird.
 ---
  
 ### Szenario iii – Erstbesuch ohne vorheriges Online-Laden (Grenzfall)
@@ -67,7 +67,7 @@ Vor jedem Szenario wurde unter DevTools → Application → Storage „Clear sit
 - **Ausgangslage:** Neues Inkognito-Fenster bzw. „Clear site data“ ausgeführt. Unter Application → Service Workers ist kein Service Worker registriert, Cache Storage ist leer.
 - **Aktion:** Zuerst Network-Tab → „Offline“ aktiviert, danach `http://localhost:4173/sessions` aufgerufen.
 - **Erwartet:** Die Fehlerseite des Browsers („Keine Internetverbindung“). Ein Service Worker wird erst beim ersten erfolgreichen Online-Besuch installiert; vorher existiert keine Instanz, die eine Anfrage aus dem Cache beantworten könnte.
-- **Beobachtet – Maurice:** [Welche Fehlerseite genau? Wurde ein Service Worker registriert?]
+- **Beobachtet – Maurice:** Nach „Clear site data“ waren unter Application weder ein Service Worker registriert noch Einträge im Cache Storage vorhanden. Mit aktiviertem Offline-Modus zeigte der Aufruf von `/sessions` die Fehlerseite des Browsers mit dem Code `ERR_INTERNET_DISCONNECTED`; die Anwendung war nicht erreichbar, und es wurde kein Service Worker registriert. [Nach dem Ausschalten des Offline-Modus und einem Reload installierte sich der Service Worker; ein anschließender Offline-Reload funktionierte wieder.]
 - **Beobachtet – Sam:** [ ]
-- **Bewertung:** Das Verhalten ist akzeptabel, weil es technisch nicht vermeidbar ist: Ohne vorherigen Kontakt zum Server hat der Browser weder Code noch Daten der App. Die einzige Abhilfe ist organisatorisch, z. B. ein Hinweis in der Anmeldebestätigung oder ein QR-Code am Eingang, die App vorab im Hotel-WLAN zu öffnen und zu installieren. Dass der erste Besuch rund 300 KB vorab lädt, ist der Preis dafür, dass danach alle Seiten offline verfügbar sind. [Eigene Beobachtung ergänzen.]
+- **Bewertung:** - **Bewertung:** Das Verhalten ist erwartet und akzeptabel, weil es technisch nicht vermeidbar ist: Ein Service Worker wird erst beim ersten erfolgreichen Online-Besuch installiert. Ohne vorherigen Kontakt zum Server hat der Browser weder Code noch Daten der App. Abhilfe ist nur organisatorisch möglich, z.B. ein Hinweis in der Anmeldebestätigung oder ein QR-Code am Eingang, die App vorab im Hotel-WLAN zu öffnen und zu installieren. Dass der erste Besuch rund 422 KB vorab lädt, ist der Preis dafür, dass danach alle Seiten offline verfügbar sind.
  
