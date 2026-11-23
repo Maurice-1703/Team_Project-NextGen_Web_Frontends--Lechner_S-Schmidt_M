@@ -108,4 +108,11 @@ Nach einem Reload sieht der Nutzer kurz die leere Hülle, dann die gespeicherte 
 
 ## Nachträge
 
-_Abweichungen, die sich bei der Umsetzung ergeben, werden hier mit Datum und Begründung ergänzt._
+**23. 11. 2026 – Schritt 3: Offline-Betrieb ergänzt die Rendering-Entscheidung**
+
+- **Precache:** Der Service Worker legt alle von `vite-ssg` erzeugten HTML-Dateien in den Precache, also Übersichten, alle Session- und Speaker-Detailseiten und die Hülle von `/my-program`. Damit sind die vorgerenderten Seiten nach dem ersten Besuch auch offline vollständig verfügbar. Die in Abschnitt 4 geforderte Offline-Nutzung von „Mein Programm“ ist damit erfüllt (Szenario ii in `docs/schritt3/03-entscheidungsprotokoll.md`).
+- **Filter-URLs:** Die Entscheidung „SSG für die Liste, CSR für die Filterung“ bleibt. Damit gefilterte URLs offline funktionieren, ignoriert der Service Worker die Parameter `track`, `day` und `level` beim Nachschlagen im Cache. Vue liest sie danach wie bisher aus der URL.
+- **Startseite:** `/` leitet jetzt auf `/sessions` weiter. Die Branding-Testseite aus Schritt 1 wurde entfernt, weil sie für Konferenzbesucher keinen Nutzen hat.
+- **Aktualität:** Weiterhin gilt, dass Datenänderungen erst nach einem neuen Build und Deploy sichtbar werden. Mit Service Worker kommt hinzu: Nutzer sehen den neuen Stand, sobald sich der neue Service Worker beim nächsten Online-Besuch installiert hat.
+
+Begründung und Testergebnisse: `docs/schritt3/02-offline-strategie-konzept.md` und `docs/schritt3/03-entscheidungsprotokoll.md`.
