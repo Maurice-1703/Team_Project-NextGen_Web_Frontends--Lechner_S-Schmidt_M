@@ -73,6 +73,10 @@ export default defineConfig({
         // Konzept B: Gefilterte URLs verwenden dieselbe gecachte Session-Übersicht
         // Vue liest die Filter weiterhin aus der URL
         ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^(track|day|level)$/],
+
+        // Konzept B: Unbekannte URLs liefern offline die vorgerenderte index.html statt der Browser-Fehlerseite 
+        // (Standardwert, hier nur sichtbar gemacht)
+        navigateFallback: "index.html",
       },
     }),
   ],
