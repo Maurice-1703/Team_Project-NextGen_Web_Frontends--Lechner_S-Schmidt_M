@@ -66,3 +66,46 @@
 **Zweck:** Ich wollte ein Beispiel für einen `globPatterns`-Eintrag, um den App-Shell-Eintrag selbst zu schreiben
  
 **Ergebnis:** Beispiel-Eintrag für statische Assets mit Erklärung der Glob-Syntax; im eigenen Eintrag Fehler gefunden (Leerzeichen in `{js, css}` hätte die CSS-Datei aus dem Precache ausgeschlossen)
+
+---
+ 
+### 23.11.2026 - ignoreURLParametersMatching verstehen und testen
+ 
+**Prompts:**
+> Erläutere, was genau ignoreURLParametersMatching macht, wofür wir das brauchen und wie ich das kontrollieren kann
+ 
+> Aber auf jetziger Main funktioniert der Offline-Reload mit Session-Filter auch schon
+ 
+> [Response-Inhalt des Offline-Reloads von `/sessions?track=…` auf `main`]
+ 
+> Auf Sams Branch: [Console-Meldung `GET …/registerSW.js net::ERR_INTERNET_DISCONNECTED`] steht nur noch in der Console (Hydration Mismatch ist verschwunden)
+ 
+**Zweck:** Ich wollte verstehen, was die Option bewirkt, und mit einem Vorher-Nachher-Test prüfen, ob Sams Regel tatsächlich wirkt
+ 
+**Ergebnis:** Erklärung der Option; die Vorhersage der KI („Reload scheitert auf `main`“) war falsch, weil `vite-plugin-pwa` standardmäßig `navigateFallback: 'index.html'` setzt. Der Response-Inhalt zeigte, dass auf `main` die Branding-Seite ausgeliefert und von Vue ersetzt wurde (Hydration-Mismatch), nach Sams Commit die echte `sessions.html`. Zusätzlich gefunden: `registerSW.js` fehlte im Precache, Muster selbst ergänzt und als eigenen Commit behoben
+
+---
+ 
+### 23.11.2026 - Precache-Zahlen
+ 
+**Prompts:**
+> Warum habe ich beim Build-Log in der Konsole 57 entries im precache, aber wenn ich im Cache Storage gucke, sehe ich nur 53 entries?
+ 
+**Zweck:** Ich wollte verstehen, warum Build-Log und Cache Storage unterschiedliche Zahlen zeigen
+ 
+**Ergebnis:** Die 4 fehlenden Einträge waren doppelt gelistete Manifest-Icons, behoben mit `includeManifestIcons: false`
+
+---
+ 
+### 23.11.2026 - Testbeobachtungen formulieren
+ 
+**Prompts:**
+> Szenario i funktioniert alles soweit, wie schreibe ich das am besten in die Beobachtung
+ 
+> Szenario ii funktioniert auch, nach einem reload ist ganz kurz die leere hülle zu sehen (zu kurz, um die nachricht lesen zu können)
+ 
+> Szenario iii: ERR_INTERNET_DISCONNECTED, man kann die Seite nicht aufrufen. Was kann in die Beobachtung und was in die Bewertung?
+ 
+**Zweck:** Ich hatte die drei Szenarien selbst getestet und wollte meine Beobachtungen im geforderten Format sauber formulieren
+ 
+**Ergebnis:** Formulierungsvorschläge mit Platzhaltern für meine echten Werte; Trennung Beobachtung (Fakten) und Bewertung (Deutung)
