@@ -11,6 +11,10 @@ export default defineConfig({
       // - vertretbar, weil Filter in der URL und Auswahl in localStorage liegen
       registerType: "autoUpdate",
 
+      // Icons werden bereits über globPatterns erfasst 
+      // -> vermeide Duplikate (einheitliche Anzahl an Precache-Entries: Build-Log vs. Cache Storage im Browser)
+      includeManifestIcons: false,
+
       // Web App Manifest (Teil A)
       // - wird beim Build als dist/manifest.webmanifest erzeugt
       // - das Plugin fügt den <link rel="manifest"> automatisch in jede HTML ein
