@@ -57,7 +57,7 @@ Nach einem Online-Aufruf mit aktivem Service Worker haben wir die Sessionübersi
 
 Wir haben online jeweils drei Sessions gespeichert. Offline haben wir `/my-program` neu geladen, eine Session entfernt und erneut geladen.
 
-**Maurice.** Er speicherte `s01`, `s02` und `s03`. Kurz war der Ladehinweis zu sehen, dann erschien die Auswahl nach Datum gruppiert. Die entfernte Session fehlte auch nach dem Reload.
+**Maurice.** Speichern von `s01`, `s02` und `s03`. Kurz war der Ladehinweis zu sehen, dann erschien die Auswahl nach Datum gruppiert. Die entfernte Session fehlte auch nach dem Reload.
 
 **Sam.** Ich sah die drei Sessions nach Datum gruppiert. Nachdem ich `s02` entfernt hatte, blieben `s01` und `s17` auch nach dem Reload auf der Seite und in `localStorage`. Das Protokoll zeigt für beide Reloads HTTP 200 aus dem Cache.
 
