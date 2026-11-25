@@ -114,6 +114,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
@@ -123,16 +131,42 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
     },
     "filteredCount": "4 von 20 Sessions",
+    "filterTheme": {
+      "prefersDark": true,
+      "colorScheme": "dark",
+      "background": "rgb(26, 20, 32)"
+    },
+    "speakerTheme": {
+      "prefersDark": true,
+      "colorScheme": "dark",
+      "background": "rgb(26, 20, 32)"
+    },
     "session": {
       "url": "http://localhost:44173/sessions/s17",
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
@@ -142,6 +176,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
@@ -151,6 +193,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
@@ -160,6 +210,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
@@ -169,6 +227,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": [],
@@ -182,6 +248,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
@@ -205,15 +279,29 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []
+    },
+    "themeAfterRemoval": {
+      "prefersDark": true,
+      "colorScheme": "dark",
+      "background": "rgb(26, 20, 32)"
     }
   },
   "scenarioIII": {
     "usageBeforeFirstVisit": 0,
     "initialRequest": {
       "url": "http://localhost:44173/sessions",
+      "stylesheets": [],
       "offline": true,
       "navigationError": "net::ERR_INTERNET_DISCONNECTED",
       "failures": [
@@ -230,6 +318,14 @@
       "status": 200,
       "fromServiceWorker": true,
       "source": "cache-storage",
+      "stylesheets": [
+        {
+          "url": "http://localhost:44173/assets/app-BggH-Bp9.css",
+          "status": 200,
+          "fromServiceWorker": true,
+          "source": "cache-storage"
+        }
+      ],
       "offline": true,
       "failures": [],
       "console": []

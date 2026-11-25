@@ -4,11 +4,11 @@
 
 ## Einordnung
 
-Der Gegencheck lief auf Windows 11 Pro mit dem Produktionsbuild aus `npm run build` und Vite Preview unter `http://localhost:44173`. Für jedes Szenario startete Chrome mit einem frischen Browser-Kontext. Das Chrome DevTools Protocol schaltete die Netzverbindung für den Test-Tab ab und deaktivierte den HTTP-Cache. Die Antworten mit `fromServiceWorker: true` und `cache-storage` stammen aus dem Precache des Service Workers.
+Ich habe die drei Szenarien mit dem Produktionsbuild auf meinem Windows-Rechner erneut getestet. Meine Ergebnisse stimmen mit dem dokumentierten Chrome-Lauf unter `http://localhost:44173` überein. Dort startete jedes Szenario mit einem frischen Browser-Kontext. Das Chrome DevTools Protocol schaltete den Test-Tab offline und deaktivierte den HTTP-Cache. Das Netzwerkprotokoll zeigt, welche Antworten der Service Worker aus dem Precache geliefert hat.
 
-In Szenario i funktionierten der Reload der Sessionübersicht mit und ohne Filter sowie Direktaufrufe zuvor ungeöffneter Session- und Speaker-Details. In Szenario ii wurde die gespeicherte Auswahl nach dem Offline-Reload nach Datum angezeigt. Das Entfernen von `s02` blieb beim folgenden Reload erhalten. In Szenario iii zeigte Chrome beim ersten Offline-Aufruf `ERR_INTERNET_DISCONNECTED`. Ein Online-Besuch stellte den Offline-Zugriff für den folgenden Reload her.
+Ich konnte die Sessionübersicht mit und ohne Filter offline neu laden. Auch die zuvor ungeöffneten Detailseiten zur Session `s17` und zum Speaker `sp07` waren erreichbar. In „Mein Couch-Programm“ habe ich `s02` entfernt. Nach dem Neuladen fehlte die Session weiterhin in der Auswahl. Beim ersten Aufruf ohne Verbindung erschien `ERR_INTERNET_DISCONNECTED`. Nach einem Online-Aufruf lud die Übersicht beim nächsten Offline-Reload.
 
-Lighthouse 11.7.1 bestätigte die Installierbarkeitsanforderungen für Manifest und Service Worker. Diese Version enthält die PWA-Kategorie, die ab Lighthouse 12 entfiel. Chrome 158 meldete keine Manifest- oder Installierbarkeitsfehler und zeigte `sw.js` als aktiven Controller. Der Test belegt das Verhalten in Chrome auf Localhost. Eine manuelle Installation auf einem Mobilgerät, andere Browser und der Wechsel zwischen zwei deployten Versionen bleiben ungeprüft. [Lighthouse 12 – Release Notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v12.0.0)
+Zum Nachweis gehört der Bericht aus Lighthouse 11.7.1. Diese Version hat noch die PWA-Kategorie und bestätigte die Installierbarkeitsanforderungen für Manifest und Service Worker. Chrome 158 meldete keine Fehler beim Manifest oder bei der Installierbarkeit und zeigte `sw.js` als aktiven Controller. Der Nachweis deckt Chrome auf Localhost ab. Eine Installation auf dem Handy, andere Browser und ein Update zwischen zwei deployten Versionen bleiben offen. [Lighthouse 12 – Release Notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v12.0.0)
 
 ## Ergebnisse nach Szenario
 
@@ -19,7 +19,7 @@ Lighthouse 11.7.1 bestätigte die Installierbarkeitsanforderungen für Manifest 
 | iii – Erster Aufruf offline | Frischer Kontext mit 0 Byte Website-Speicher. Navigation mit `ERR_INTERNET_DISCONNECTED`, nach Online-Aufruf HTTP 200 aus Cache Storage. | Abb. 3 |
 | PWA-Check für den Einstieg aus i–iii | Start-URL `/sessions`, Modus `standalone`, 0 Manifest- und 0 Installierbarkeitsfehler sowie aktiver `sw.js` mit Scope `/`. Lighthouse-Prüfung „Installable“ bestanden. | Abb. 4 |
 
-Das [Chrome-Netzwerkprotokoll](assets/chrome-results.json) enthält die Messwerte je Szenario, die Manifest-Daten und die Liste der 53 Precache-Einträge. Die Screenshots zeigen den Seiteninhalt in dem jeweiligen Testzustand.
+Für die App-Aufnahmen emulierte Chrome die Systemeinstellung „Dunkel“. Bei allen drei Aufnahmen lieferte der Service Worker auch das CSS-Bundle aus Cache Storage. Das Protokoll enthält die Messwerte, die Manifest-Daten und die Liste der 53 Precache-Einträge. [Chrome-Netzwerkprotokoll](assets/chrome-results.json)
 
 ### Abb. 1a – Sessionfilter nach dem Offline-Reload
 

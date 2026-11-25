@@ -5,10 +5,8 @@
 
 ---
 
-### 25.11.2026 – Cross-Review, Offline-Gegencheck und Nachweis
+### 25.11.2026 – Review der Offline-Strategie
 
-**Auftrag** – Den Stand von `main` und Maurice’ PR auf `docs/test-ergebnisse` prüfen und die eigenen Beiträge für C, D und E vervollständigen.
+Beim Cross-Review mit Codex ging es um die Unterschiede zwischen versioniertem Precache, Runtime-Caching und Stale-While-Revalidate. Für das statische Konferenzprogramm hält der Precache auch Detailseiten bereit, die noch nie geöffnet wurden. Stale-While-Revalidate wäre relevant, wenn sich Räume oder Zeiten über eine eigene Datenquelle kurzfristig ändern könnten.
 
-**Einsatz** – Codex verglich die Git-Stände, baute die App und führte die drei Szenarien auf meinem Rechner mit separaten Chrome-Kontexten aus. Den von Maurice beschriebenen Hydration-Fehler reproduzierte Codex auf dem PR-Stand, korrigierte ihn in `c8f7c5a` und wiederholte den Test. Für den Nachweis erzeugte es Screenshots, ein Chrome-Netzwerkprotokoll und einen Lighthouse-PWA-Auszug.
-
-**Ergebnis** – Die eigene Cache-Regel für Session- und Speaker-Details war bereits in `main`. Das Entscheidungsprotokoll enthält die Messwerte gemeinsam mit Maurice’ Beobachtungen. Der Verifikationsnachweis nennt die Grenzen des Tests. [Entscheidungsprotokoll](03-entscheidungsprotokoll.md) · [Verifikationsnachweis](04-verifikations-nachweis.md)
+Codex erklärte, warum Filterparameter beim Cache-Abgleich ignoriert werden können und wann die vorgerenderte Startseite als Fallback eine neue Darstellung im Browser braucht.
