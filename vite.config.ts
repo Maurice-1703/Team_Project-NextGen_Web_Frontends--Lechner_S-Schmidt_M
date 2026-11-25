@@ -7,8 +7,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       // Konzept B, Abschnitt „Aktualisierung“
-      // - neuer Service Worker übernimmt sofort, Seite lädt einmal neu
-      // - vertretbar, weil Filter in der URL und Auswahl in localStorage liegen
+      // - neuer Service Worker übernimmt offene Tabs, die Ansicht wird beim nächsten Laden aktualisiert
       registerType: "autoUpdate",
 
       // Icons werden bereits über globPatterns erfasst 
@@ -74,8 +73,8 @@ export default defineConfig({
         // Vue liest die Filter weiterhin aus der URL
         ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^(track|day|level)$/],
 
-        // Konzept B: Unbekannte URLs liefern offline die vorgerenderte index.html statt der Browser-Fehlerseite 
-        // (Standardwert, hier nur sichtbar gemacht)
+        // Fallback für Navigationen ohne Precache-Treffer.
+        // Vue rendert die angeforderte Route neu, wenn das vorgerenderte HTML nicht dazu passt.
         navigateFallback: "index.html",
       },
     }),

@@ -6,11 +6,18 @@ import { routes } from './router'
 import '../tokens/tokens.css'
 import './styles/base.css'
 
+// Der Service Worker kann index.html für eine andere URL liefern.
+// Nur passendes SSG-Markup hydrieren. Die Startseite rendert bereits /sessions.
+const canHydrate = import.meta.env.PROD && !import.meta.env.SSR && (
+  location.pathname === '/' ||
+  document.querySelector('#app > [data-rendered-path]')?.getAttribute('data-rendered-path') === location.pathname
+)
+
 export const createApp = ViteSSG(
   App,
   { routes, base: import.meta.env.BASE_URL },
   undefined,
-  { hydration: import.meta.env.PROD, useHead: false },
+  { hydration: canHydrate, useHead: false },
 )
 
 export function includedRoutes(paths: string[]) {

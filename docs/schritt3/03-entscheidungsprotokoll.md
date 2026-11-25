@@ -18,56 +18,57 @@ In Schritt 2 haben wir entschieden, Session-Detailseiten, Speaker-Profile und di
 5. **Cache First durch versionierten Precache:** alle Build-Dateien werden bei der Installation des Service Workers gespeichert und danach ohne Netzanfrage ausgeliefert.
 ## Entscheidung
  
-Wir wählen **Option 5** für alle Datentypen aus Konzept B: App-Shell, Session- und Speaker-Seiten sowie statische Assets. „Mein Couch-Programm“ braucht keine eigene Regel, weil der Service Worker keinen Zugriff auf `localStorage` hat; offline erreichbar wird es über die vorab gespeicherte App-Shell inklusive `my-program.html`. Umgesetzt ist das mit `vite-plugin-pwa` (Workbox, Modus `generateSW`) über `workbox.globPatterns` in `vite.config.ts`, mit einem kommentierten Eintrag je Datentyp. Updates übernimmt der Service Worker mit `registerType: 'autoUpdate'` sofort.
+Wir wählen **Option 5** für App-Shell, Session- und Speaker-Seiten sowie statische Assets. `vite-plugin-pwa` erzeugt daraus einen Workbox-Service-Worker im Modus `generateSW`. Die kommentierten `workbox.globPatterns` in `vite.config.ts` erfassen die vorgerenderten Seiten und das JS-Bundle mit den Konferenzdaten. Für „Mein Couch-Programm“ kommt `my-program.html` aus dem Precache. Vue liest die gespeicherten IDs nach dem Mounten aus `localStorage` und verknüpft sie mit den Session-Daten aus dem Bundle.
  
 ## Konsequenzen
  
-- Nach einem erfolgreichen Online-Besuch sind alle Seiten offline verfügbar, auch nie einzeln geöffnete Detailseiten.
-- HTML und JS-Bundle stammen immer aus demselben Build; ein Hydration-Mismatch durch unterschiedliche Datenstände ist ausgeschlossen.
-- Der erste Besuch lädt einmalig alle Dateien vorab (derzeit 19 Einträge, ca. 300 KB).
-- Programmänderungen erreichen Nutzer nur über einen neuen Build. Mit `autoUpdate` lädt die Seite danach einmal neu; Filter (URL) und Auswahl (`localStorage`) bleiben erhalten.
+- Nach dem ersten Online-Besuch mit abgeschlossener Service-Worker-Installation sind die Programmseiten offline verfügbar, auch nie einzeln geöffnete Detailseiten.
+- Das vorgerenderte HTML und das JS-Bundle im Precache stammen aus demselben Build. Liefert Workbox für eine andere Route die vorgerenderte Startseite, rendert Vue die angeforderte Ansicht neu.
+- Der getestete Build speichert 53 Dateien mit zusammen 423,70 KiB laut Workbox-Buildlog vorab.
+- Programmänderungen erreichen Nutzer über einen neuen Build. `autoUpdate` aktiviert den neuen Service Worker und lässt ihn offene Tabs übernehmen. Die Ansicht aktualisiert sich beim nächsten Laden. Filter in der URL und die Auswahl in `localStorage` bleiben erhalten.
 - Ohne vorherigen Online-Besuch ist kein Offline-Betrieb möglich (siehe Szenario iii).
+
 ## Testszenarien
  
 **Testumgebung**
  
 | | Maurice | Sam |
 | --- | --- | --- |
-| Betriebssystem | Windows [Version] | ??? [Version] |
-| Browser | Chrome [Version] | ??? [Browser + Version] |
-| Getesteter Stand | Commit `[ID]` | Commit `[ID]` |
-| Start | `npm run build` → `npm run preview` (`http://localhost:4173`) | ebenso |
+| Betriebssystem | Windows 11 Home 25H2 | Windows 11 Pro 25H2 (Build 26200.9974) |
+| Browser im dokumentierten Lauf | Chrome 157.0.8103.79 | Chrome 158.0.8127.88 (Headless) |
+| Getesteter Stand | Commit `ebb2b52` | PR #3 `dc56256`, Wiederholung auf `c8f7c5a` |
+| Start | `npm run build` → `npm run preview` (`http://localhost:4173`) | `npm run build` → Vite Preview (`http://localhost:44173`) |
  
-Vor jedem Szenario wurde unter DevTools → Application → Storage „Clear site data“ ausgeführt, damit kein alter Service Worker das Ergebnis verfälscht.
+Maurice nutzte „Clear site data“ in Chrome DevTools. Ich habe die drei Szenarien auf meinem Rechner erneut durchgespielt und dieselben Ergebnisse erhalten wie im aufgezeichneten Chrome-Lauf. Die Screenshots und das Netzwerkprotokoll zu diesem Lauf sind den Szenarien im Verifikationsnachweis zugeordnet. [Verifikationsnachweis](04-verifikations-nachweis.md)
  
 ---
  
-### Szenario i – Session-Übersicht im Flugmodus
- 
-- **Ausgangslage:** Die App wurde einmal online unter `/sessions` geladen. In DevTools → Application → Service Workers ist `sw.js` als „activated and is running“ markiert, unter Cache Storage existiert `workbox-precache-…`.
-- **Aktion:** Network-Tab → „Offline“ aktiviert. `/sessions` neu geladen. Danach ein Filter gesetzt (z. B. Track), die gefilterte Seite neu geladen und über eine Session-Karte eine Detailseite geöffnet und neu geladen.
-- **Erwartet (laut Konzept B):** Die Übersicht erscheint mit allen 20 Sessions; im Network-Tab steht bei `sessions.html` „(ServiceWorker)“. Filtern funktioniert, weil es im Browser aus den Bundle-Daten berechnet wird. Detailseiten und gefilterte URLs funktionieren auch nach einem Reload.
-- **Beobachtet – Maurice:** [Was wurde konkret angezeigt? Wurde gestylt? Was stand in der Spalte „Size“? Was passierte beim Reload von `/sessions?track=…` und von `/sessions/s07`?]
-- **Beobachtet – Sam:** [ ]
-- **Bewertung:** [Stimmt das Verhalten mit Konzept B überein? Falls Reload der gefilterten URL oder der Detailseite fehlschlug: Ursache benennen (Detailseiten noch nicht im Precache bzw. `ignoreURLParametersMatching` noch nicht gesetzt), Korrektur-Commit nennen und Ergebnis des erneuten Tests ergänzen.]
----
- 
+### Szenario i – Sessionübersicht im simulierten Flugmodus
+
+Nach einem Online-Aufruf mit aktivem Service Worker haben wir die Sessionübersicht offline mit und ohne Track-Filter neu geladen und eine Detailseite direkt geöffnet.
+
+**Maurice.** Auf `b941767` lieferte die Filter-URL die Branding-Seite. Die Konsole meldete einen Hydration-Fehler und `registerSW.js` scheiterte. Mit `fea7cc5` und `0fe78d4` kamen `sessions.html` und die zuvor ungeöffnete Session `s17` aus dem Cache.
+
+**Sam.** Ich sah 20 Sessions ohne Filter und vier mit `frontend-architecture`. Die Startseite, `s17` und das zuvor ungeöffnete Speakerprofil `sp07` öffneten sich offline. Auf `c8f7c5a` zeigte `/branding` „Seite nicht gefunden“. Die Konsole blieb leer. Die DevTools-Aufnahme zeigt auch einen Offline-Reload von `s06`.
+
+**Bewertung.** Die vorab gespeicherten Programmseiten bestätigen Cache First. Beim Fallback zeigt Vue die passende Ansicht.
+
 ### Szenario ii – „Mein Couch-Programm“ offline
- 
-- **Ausgangslage:** Online wurden drei Sessions über die Detailseite zu „Mein Couch-Programm“ hinzugefügt (z. B. `s01`, `s07`, `s20`). In DevTools → Application → Local Storage steht unter `frontendnow:2026:my-program:v1` das ID-Array.
-- **Aktion:** Network-Tab → „Offline“ aktiviert. `/my-program` direkt aufgerufen und neu geladen. Danach eine Session entfernt und erneut neu geladen.
-- **Erwartet (laut Konzept B):** Die Seitenhülle kommt aus dem Precache, nach dem Mounten liest der Store die IDs aus `localStorage` und zeigt die drei Sessions nach Tag gruppiert an. Das Entfernen funktioniert offline und bleibt nach dem Reload erhalten, weil `localStorage` nicht vom Netz abhängt.
-- **Beobachtet – Maurice:** [Wurden die Sessions angezeigt? War kurz die leere Hülle zu sehen? Blieb das Entfernen nach dem Reload erhalten? Spalte „Size“ bei `my-program.html`?]
-- **Beobachtet – Sam:** [ ]
-- **Bewertung:** [Bestätigt das die Entscheidung, für „Mein Programm“ keine eigene Regel anzulegen? Gab es Unterschiede zwischen den Rechnern?]
----
- 
-### Szenario iii – Erstbesuch ohne vorheriges Online-Laden (Grenzfall)
- 
-- **Ausgangslage:** Neues Inkognito-Fenster bzw. „Clear site data“ ausgeführt. Unter Application → Service Workers ist kein Service Worker registriert, Cache Storage ist leer.
-- **Aktion:** Zuerst Network-Tab → „Offline“ aktiviert, danach `http://localhost:4173/sessions` aufgerufen.
-- **Erwartet:** Die Fehlerseite des Browsers („Keine Internetverbindung“). Ein Service Worker wird erst beim ersten erfolgreichen Online-Besuch installiert; vorher existiert keine Instanz, die eine Anfrage aus dem Cache beantworten könnte.
-- **Beobachtet – Maurice:** [Welche Fehlerseite genau? Wurde ein Service Worker registriert?]
-- **Beobachtet – Sam:** [ ]
-- **Bewertung:** Das Verhalten ist akzeptabel, weil es technisch nicht vermeidbar ist: Ohne vorherigen Kontakt zum Server hat der Browser weder Code noch Daten der App. Die einzige Abhilfe ist organisatorisch, z. B. ein Hinweis in der Anmeldebestätigung oder ein QR-Code am Eingang, die App vorab im Hotel-WLAN zu öffnen und zu installieren. Dass der erste Besuch rund 300 KB vorab lädt, ist der Preis dafür, dass danach alle Seiten offline verfügbar sind. [Eigene Beobachtung ergänzen.]
- 
+
+Wir haben online jeweils drei Sessions gespeichert. Offline haben wir `/my-program` neu geladen, eine Session entfernt und erneut geladen.
+
+**Maurice.** Speichern von `s01`, `s02` und `s03`. Kurz war der Ladehinweis zu sehen, dann erschien die Auswahl nach Datum gruppiert. Die entfernte Session fehlte auch nach dem Reload.
+
+**Sam.** Ich sah die drei Sessions nach Datum gruppiert. Nachdem ich `s02` entfernt hatte, blieben `s01` und `s17` auch nach dem Reload auf der Seite und in `localStorage`. Das Protokoll zeigt für beide Reloads HTTP 200 aus dem Cache.
+
+**Bewertung.** Der Service Worker liefert die Seitenhülle. Vue liest die Auswahl aus `localStorage` und ordnet sie den vorab gespeicherten Programmdaten zu.
+
+### Szenario iii – Erstbesuch ohne Netz
+
+Für diesen Grenzfall haben wir die Website-Daten gelöscht oder einen frischen Chrome-Kontext verwendet. Dann haben wir `/sessions` zum ersten Mal offline aufgerufen.
+
+**Maurice.** Chrome zeigte `ERR_INTERNET_DISCONNECTED`. Cache Storage war leer und es war kein Service Worker registriert. Nach einem Online-Aufruf funktionierte der nächste Offline-Reload.
+
+**Sam.** Ich bekam dieselbe Chrome-Fehlerseite. Nach einem Online-Aufruf konnte ich die Übersicht offline neu laden. Im Netzwerkprotokoll steht für diesen Reload HTTP 200 aus dem Cache.
+
+**Bewertung.** Die Browsermeldung beim Erstbesuch war erwartet. Der Browser benötigt zunächst eine Verbindung, um die App zu laden und den Service Worker zu installieren. Ein Hinweis in der Anmeldebestätigung kann Teilnehmende daran erinnern, die App vorab online zu öffnen.
