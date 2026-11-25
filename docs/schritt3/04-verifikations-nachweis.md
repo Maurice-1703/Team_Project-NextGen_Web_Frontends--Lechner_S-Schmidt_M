@@ -1,42 +1,82 @@
 # E – Verifikationsnachweis
 
-**Testlauf am 25. November 2026** · Sams Rechner · Produktionsbuild `c8f7c5a` · Chrome 158.0.8127.88
+**DevTools-Aufnahmen vom 25. November 2026** · Sams Rechner · Produktionsbuild `bf607c5` · Chrome 158.0.8127.88
 
 ## Einordnung
 
-Ich habe die drei Szenarien mit dem Produktionsbuild auf meinem Windows-Rechner erneut getestet. Meine Ergebnisse stimmen mit dem dokumentierten Chrome-Lauf unter `http://localhost:44173` überein. Dort startete jedes Szenario mit einem frischen Browser-Kontext. Das Chrome DevTools Protocol schaltete den Test-Tab offline und deaktivierte den HTTP-Cache. Das Netzwerkprotokoll zeigt, welche Antworten der Service Worker aus dem Precache geliefert hat.
+Maurice und ich haben die drei Szenarien unabhängig auf zwei Windows-Rechnern getestet. Wir haben den Produktionsbuild mit `npm run build` erstellt und mit Vite Preview geöffnet. Die DevTools-Aufnahmen zeigen die Vorschau unter `http://localhost:44173`. Für i und ii war der Service Worker nach einem Online-Besuch bereits aktiv. Für iii wurde ein frisches Chrome-Profil vor dem ersten Aufruf auf „Offline“ gestellt.
 
-Ich konnte die Sessionübersicht mit und ohne Filter offline neu laden. Auch die zuvor ungeöffneten Detailseiten zur Session `s17` und zum Speaker `sp07` waren erreichbar. In „Mein Couch-Programm“ habe ich `s02` entfernt. Nach dem Neuladen fehlte die Session weiterhin in der Auswahl. Beim ersten Aufruf ohne Verbindung erschien `ERR_INTERNET_DISCONNECTED`. Nach einem Online-Aufruf lud die Übersicht beim nächsten Offline-Reload.
+Die Sessionübersicht lud offline mit und ohne Filter. Das Network-Panel zeigte „(ServiceWorker)“ für HTML, JavaScript und CSS bei ausgeschaltetem HTTP-Cache. Auch zuvor ungeöffnete Detailseiten waren erreichbar. Im persönlichen Programm blieb `s02` nach dem Entfernen und Neuladen aus der Auswahl gelöscht. Beim Erstbesuch ohne Verbindung erschien `ERR_INTERNET_DISCONNECTED`. Nach einem Online-Aufruf funktionierte der nächste Offline-Reload.
 
-Zum Nachweis gehört der Bericht aus Lighthouse 11.7.1. Diese Version hat noch die PWA-Kategorie und bestätigte die Installierbarkeitsanforderungen für Manifest und Service Worker. Chrome 158 meldete keine Fehler beim Manifest oder bei der Installierbarkeit und zeigte `sw.js` als aktiven Controller. Der Nachweis deckt Chrome auf Localhost ab. Eine Installation auf dem Handy, andere Browser und ein Update zwischen zwei deployten Versionen bleiben offen. [Lighthouse 12 – Release Notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v12.0.0)
+Seit Lighthouse 12 gibt es keine PWA-Kategorie mehr, daher belegen die Aufnahmen unter DevTools → Application das Manifest, den Service Worker und den Precache. Der Bericht aus Lighthouse 11.7.1 ergänzt den Installierbarkeitscheck. DevTools simuliert eine unterbrochene Verbindung im Browser. Ein echter Flugmodus, die Installation auf einem Mobilgerät und der Wechsel zwischen zwei Deployments wurden nicht getestet. [Lighthouse 12 – Release Notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v12.0.0)
 
 ## Ergebnisse nach Szenario
 
-| Szenario aus [D](03-entscheidungsprotokoll.md) | Befund im Chrome-Netzwerkprotokoll | Beleg |
+| Prüfung | Beobachtung | Beleg |
 | --- | --- | --- |
-| i – Sessionübersicht und Details offline | HTTP 200 aus Cache Storage für Übersicht, Filter-URL, `/sessions/s17`, `/speakers/sp07` und `/`. | Abb. 1a und 1b |
-| ii – Mein Couch-Programm offline | Beide Reloads lieferten HTTP 200 aus Cache Storage. Nach dem Entfernen blieben `s01` und `s17` in `localStorage`. | Abb. 2 |
-| iii – Erster Aufruf offline | Frischer Kontext mit 0 Byte Website-Speicher. Navigation mit `ERR_INTERNET_DISCONNECTED`, nach Online-Aufruf HTTP 200 aus Cache Storage. | Abb. 3 |
-| PWA-Check für den Einstieg aus i–iii | Start-URL `/sessions`, Modus `standalone`, 0 Manifest- und 0 Installierbarkeitsfehler sowie aktiver `sw.js` mit Scope `/`. Lighthouse-Prüfung „Installable“ bestanden. | Abb. 4 |
+| A und C – PWA-Grundgerüst und Precache | Start-URL `/sessions`, Modus `standalone`, aktiver Service Worker und 53 Einträge in Cache Storage. | Abb. 1–3 und 10 |
+| i – Sessionübersicht und Details offline | Übersicht, Filter-URL und Sessiondetail laden mit HTTP 200 vom Service Worker. | Abb. 4–6 |
+| ii – Mein Couch-Programm offline | Nach Entfernen und Reload stehen `s01` und `s17` weiterhin in der Ansicht und in Local Storage. | Abb. 7 |
+| iii – Erster Aufruf offline | Chrome zeigt `ERR_INTERNET_DISCONNECTED` und listet für das frische Profil keinen Service Worker. | Abb. 8–9 |
 
-Für die App-Aufnahmen emulierte Chrome die Systemeinstellung „Dunkel“. Bei allen drei Aufnahmen lieferte der Service Worker auch das CSS-Bundle aus Cache Storage. Das Protokoll enthält die Messwerte, die Manifest-Daten und die Liste der 53 Precache-Einträge. [Chrome-Netzwerkprotokoll](assets/chrome-results.json)
+Das frühere Netzwerkprotokoll zum gleichen Anwendungsstand enthält zusätzlich die Antworten für die Startseite, `/sessions/s17` und `/speakers/sp07` sowie die Liste aller 53 Precache-Einträge. [Entscheidungsprotokoll](03-entscheidungsprotokoll.md) · [Chrome-Netzwerkprotokoll](assets/chrome-results.json)
 
-### Abb. 1a – Sessionfilter nach dem Offline-Reload
+### Abb. 1 – Manifest
 
-![Offline geladene Sessionübersicht mit vier von zwanzig Sessions im gewählten Track](assets/01-sessionfilter-offline.png)
+![Chrome DevTools mit App-Name, Start-URL, Farben und Icons des Manifests](assets/a-manifest.jpg)
 
-### Abb. 1b – Zuvor ungeöffnetes Speakerprofil offline
+Unter „Application → Manifest“ sind App-Name, Start-URL, Farben und Icons sichtbar, zusammen mit zwei Hinweisen auf optionale Screenshots für den erweiterten Installationsdialog.
 
-![Offline geladenes Profil von Sara Lindholm mit Bio und zwei verlinkten Sessions](assets/01-speakerprofil-offline.png)
+### Abb. 2 – Aktiver Service Worker
 
-### Abb. 2 – Persönliches Programm nach Entfernen und Offline-Reload
+![Chrome DevTools mit aktivem Service Worker für localhost](assets/a-service-worker.jpg)
 
-![Zwei verbleibende Sessions im persönlichen Programm, gruppiert unter zwei Konferenztagen](assets/02-mein-programm-offline.png)
+Der Service Worker `sw.js` steht nach dem Online-Aufruf auf „activated and is running“, während „Update on reload“ ausgeschaltet ist.
 
-### Abb. 3 – Erster Aufruf ohne Verbindung
+### Abb. 3 – Workbox-Precache
 
-![Chrome-Fehlerseite bei der ersten Offline-Navigation mit ERR_INTERNET_DISCONNECTED](assets/03-erstbesuch-offline.png)
+![Chrome DevTools zeigt Cache Storage mit 53 Einträgen](assets/c-cache-storage.jpg)
 
-### Abb. 4 – Lighthouse PWA-Audit
+Cache Storage zeigt 53 Einträge, darunter das Manifest, das JS- und CSS-Bundle sowie vorgerenderte Sessionseiten.
+
+### Abb. 4 – Sessionübersicht offline
+
+![Sessionübersicht mit 20 Sessions und Service-Worker-Antworten in Network](assets/i-network-offline.jpg)
+
+In Szenario i zeigt das Network-Panel „Offline“ und für die Übersicht sowie die statischen Dateien „(ServiceWorker)“ in der Spalte „Size“.
+
+### Abb. 5 – Gefilterte Übersicht nach dem Offline-Reload
+
+![Gefilterte Sessionübersicht mit vier von zwanzig Sessions und Offline-Modus](assets/i-filter-offline.jpg)
+
+In Szenario i bleiben nach dem Offline-Reload der URL mit `track=frontend-architecture` vier von 20 Sessions sichtbar.
+
+### Abb. 6 – Sessiondetail nach dem Offline-Reload
+
+![Detailseite für Session s06 mit erfolgreicher Service-Worker-Antwort](assets/i-detail-offline.jpg)
+
+In Szenario i liefert der Service Worker die Detailseite `/sessions/s06` auch nach einem Offline-Reload mit HTTP 200.
+
+### Abb. 7 – Persönliches Programm und Local Storage
+
+![Persönliches Programm mit zwei Sessions und ihren IDs im Local Storage](assets/ii-my-program-offline.jpg)
+
+In Szenario ii sind nach dem Entfernen von `s02` und dem Offline-Reload dieselben zwei Sessions im Programm und in Local Storage sichtbar.
+
+### Abb. 8 – Erster Aufruf ohne Netz
+
+![Chrome-Fehlerseite und Network-Panel beim ersten Aufruf im Offline-Modus](assets/iii-erstbesuch-offline.jpg)
+
+In Szenario iii schlägt der erste Aufruf von `/sessions` bei aktiviertem Offline-Modus mit `ERR_INTERNET_DISCONNECTED` fehl.
+
+### Abb. 9 – Service Workers beim Erstbesuch
+
+![Leere Ansicht für Service Workers im frischen Profil nach dem Offline-Erstbesuch](assets/iii-kein-sw.jpg)
+
+In Szenario iii zeigt „Application → Service Workers“ nach dem fehlgeschlagenen Erstaufruf keine Registrierung.
+
+### Abb. 10 – Ergänzender Lighthouse-PWA-Bericht
 
 ![Lighthouse-PWA-Report mit bestandener Installierbarkeitsprüfung für Manifest und Service Worker](assets/04-lighthouse-pwa.png)
+
+Lighthouse 11.7.1 meldet für Manifest und Service Worker eine bestandene Installierbarkeitsprüfung.

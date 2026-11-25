@@ -43,32 +43,32 @@ Maurice nutzte „Clear site data“ in Chrome DevTools. Ich habe die drei Szena
  
 ---
  
-### Szenario i – Session-Übersicht im Flugmodus
- 
-- **Ausgangslage:** Die App wurde einmal online unter `/sessions` geladen. In DevTools → Application → Service Workers ist `sw.js` als „activated and is running“ markiert, unter Cache Storage existiert `workbox-precache-…`.
-- **Aktion:** Network-Tab → „Offline“ aktiviert. `/sessions` neu geladen. Danach ein Filter gesetzt (z. B. Track), die gefilterte Seite neu geladen und über eine Session-Karte eine Detailseite geöffnet und neu geladen.
-- **Erwartet (laut Konzept B):** Die Übersicht erscheint mit allen 20 Sessions; im Network-Tab steht bei `sessions.html` „(ServiceWorker)“. Filtern funktioniert, weil es im Browser aus den Bundle-Daten berechnet wird. Detailseiten und gefilterte URLs funktionieren auch nach einem Reload.
-- **Beobachtet – Maurice:** Erster Test auf Commit `b941767`: Der Offline-Reload von `/sessions?track=frontend-architecture` zeigte zwar die gefilterte Liste („4 von 20 Sessions“), im Reiter Response stand jedoch die vorgerenderte Branding-Seite. Der Precache kannte die URL mit Parameter nicht, der Standard-Fallback lieferte `index.html`; die Console meldete einen Hydration-Mismatch, `registerSW.js` schlug mit `ERR_INTERNET_DISCONNECTED` fehl. Nach `fea7cc5` (`ignoreURLParametersMatching`) und `0fe78d4` (`registerSW.js` im Precache) enthielt die Response die echte `sessions.html`, die Console blieb leer. Alle Anfragen zeigten in der Spalte „Size“ „(ServiceWorker)“. Auch die nie zuvor geöffnete Detailseite `/sessions/s17` lud offline vollständig. Im Cache Storage lagen 53 Einträge.
-- **Mein Gegencheck (Sam).** Ich habe die Sessionübersicht zuerst online geöffnet und dann offline neu geladen. Ohne Filter wurden „20 von 20 Sessions“ angezeigt. Mit dem Track-Filter `frontend-architecture` zeigte die Seite nach dem Reload „4 von 20 Sessions“. Auch die Startseite und die zuvor ungeöffneten Detailseiten `/sessions/s17` und `/speakers/sp07` konnte ich offline öffnen. Im getesteten Stand `c8f7c5a` zeigte `/branding` die Meldung „Seite nicht gefunden“ und die Konsole blieb leer.
-- **Bewertung:** Beide Tests bestätigen die Cache-First-Entscheidung aus B. Die Änderungen für Filter-URLs und `registerSW.js` schließen die zuerst beobachteten Fehler. Beim Fallback kommt weiterhin `index.html` aus dem Cache. Vue baut bei einem abweichenden Pfad die passende Ansicht auf.
+### Szenario i – Sessionübersicht im simulierten Flugmodus
 
----
- 
+Nach einem Online-Aufruf mit aktivem Service Worker haben wir die Sessionübersicht offline mit und ohne Track-Filter neu geladen und eine Detailseite direkt geöffnet.
+
+**Maurice.** Auf `b941767` lieferte die Filter-URL die Branding-Seite. Die Konsole meldete einen Hydration-Fehler und `registerSW.js` scheiterte. Mit `fea7cc5` und `0fe78d4` kamen `sessions.html` und die zuvor ungeöffnete Session `s17` aus dem Cache.
+
+**Sam.** Ich sah 20 Sessions ohne Filter und vier mit `frontend-architecture`. Die Startseite, `s17` und das zuvor ungeöffnete Speakerprofil `sp07` öffneten sich offline. Auf `c8f7c5a` zeigte `/branding` „Seite nicht gefunden“. Die Konsole blieb leer. Die DevTools-Aufnahme zeigt auch einen Offline-Reload von `s06`.
+
+**Bewertung.** Die vorab gespeicherten Programmseiten bestätigen Cache First. Beim Fallback zeigt Vue die passende Ansicht.
+
 ### Szenario ii – „Mein Couch-Programm“ offline
- 
-- **Ausgangslage:** Online wurden drei Sessions über die Detailseite zu „Mein Couch-Programm“ hinzugefügt (z. B. `s01`, `s02`, `s03`). In DevTools → Application → Local Storage steht unter `frontendnow:2026:my-program:v1` das ID-Array.
-- **Aktion:** Network-Tab → „Offline“ aktiviert. `/my-program` direkt aufgerufen und neu geladen. Danach eine Session entfernt und erneut neu geladen.
-- **Erwartet (laut Konzept B):** Die Seitenhülle kommt aus dem Precache, nach dem Mounten liest der Store die IDs aus `localStorage` und zeigt die drei Sessions nach Tag gruppiert an. Das Entfernen funktioniert offline und bleibt nach dem Reload erhalten, weil `localStorage` nicht vom Netz abhängt.
-- **Beobachtet – Maurice:** Nach dem Hinzufügen von s01, s02, s03 stand das ID-Array unter `frontendnow:2026:my-program:v1` im Local Storage. Offline lud `/my-program` per Reload vollständig; `my-program.html` kam laut Spalte „Size“ aus dem Service Worker. Für einen Sekundenbruchteil war die vorgerenderte Hülle mit dem Ladehinweis zu sehen, danach erschienen die drei Sessions nach Tag gruppiert. Das Entfernen einer Session funktionierte offline und blieb nach einem weiteren Reload erhalten.
-- **Mein Gegencheck (Sam).** Ich habe drei Sessions online gespeichert und danach „Mein Couch-Programm“ offline geöffnet. Nach dem Neuladen wurden alle drei Sessions nach Datum gruppiert angezeigt. Ich habe `s02` entfernt und die Seite erneut geladen. `s01` und `s17` blieben auf der Seite und in `localStorage` erhalten. Das Netzwerkprotokoll zeigt für beide Reloads HTTP 200 aus dem Cache.
-- **Bewertung:** Das bestätigt die Entscheidung aus Konzept B, für „Mein Couch-Programm“ keine eigene Caching-Regel anzulegen: Die Daten liegen in `localStorage` und sind unabhängig vom Netz, der Service Worker muss nur die Hülle liefern. Die kurz sichtbare Hülle entspricht der Rendering-ADR aus Schritt 2 (CSR nach dem Mounten); sie verhindert, dass beim Build eine falsche oder leere Auswahl als fertiges Programm ausgeliefert wird.
----
- 
-### Szenario iii – Erstbesuch ohne vorheriges Online-Laden (Grenzfall)
- 
-- **Ausgangslage:** Neues Inkognito-Fenster bzw. „Clear site data“ ausgeführt. Unter Application → Service Workers ist kein Service Worker registriert, Cache Storage ist leer.
-- **Aktion:** Zuerst Network-Tab → „Offline“ aktiviert, danach `http://localhost:4173/sessions` aufgerufen.
-- **Erwartet:** Die Fehlerseite des Browsers („Keine Internetverbindung“). Ein Service Worker wird erst beim ersten erfolgreichen Online-Besuch installiert; vorher existiert keine Instanz, die eine Anfrage aus dem Cache beantworten könnte.
-- **Beobachtet – Maurice:** Nach „Clear site data“ waren unter Application weder ein Service Worker registriert noch Einträge im Cache Storage vorhanden. Mit aktiviertem Offline-Modus zeigte der Aufruf von `/sessions` die Fehlerseite des Browsers mit dem Code `ERR_INTERNET_DISCONNECTED`; die Anwendung war nicht erreichbar, und es wurde kein Service Worker registriert. Nach dem Ausschalten des Offline-Modus und einem Reload installierte sich der Service Worker; ein anschließender Offline-Reload funktionierte wieder.
-- **Mein Gegencheck (Sam).** Ich habe `/sessions` in einem frischen Chrome-Kontext zuerst offline aufgerufen. Dabei erschien die Browser-Fehlerseite mit `ERR_INTERNET_DISCONNECTED`. Danach habe ich die App einmal online geladen. Beim anschließenden Offline-Reload war die Übersicht verfügbar. Im Netzwerkprotokoll ist für diesen Reload HTTP 200 aus dem Cache vermerkt.
-- **Bewertung:** Der Browser braucht beim Erstbesuch Netz, um die App und ihren Service Worker zu laden. Die Browser-Fehlerseite ist für diesen Grenzfall erwartbar. Ein Hinweis in der Anmeldebestätigung kann Teilnehmende dazu anregen, die App vor Beginn der Konferenz einmal online zu öffnen.
+
+Wir haben online jeweils drei Sessions gespeichert. Offline haben wir `/my-program` neu geladen, eine Session entfernt und erneut geladen.
+
+**Maurice.** Er speicherte `s01`, `s02` und `s03`. Kurz war der Ladehinweis zu sehen, dann erschien die Auswahl nach Datum gruppiert. Die entfernte Session fehlte auch nach dem Reload.
+
+**Sam.** Ich sah die drei Sessions nach Datum gruppiert. Nachdem ich `s02` entfernt hatte, blieben `s01` und `s17` auch nach dem Reload auf der Seite und in `localStorage`. Das Protokoll zeigt für beide Reloads HTTP 200 aus dem Cache.
+
+**Bewertung.** Der Service Worker liefert die Seitenhülle. Vue liest die Auswahl aus `localStorage` und ordnet sie den vorab gespeicherten Programmdaten zu.
+
+### Szenario iii – Erstbesuch ohne Netz
+
+Für diesen Grenzfall haben wir die Website-Daten gelöscht oder einen frischen Chrome-Kontext verwendet. Dann haben wir `/sessions` zum ersten Mal offline aufgerufen.
+
+**Maurice.** Chrome zeigte `ERR_INTERNET_DISCONNECTED`. Cache Storage war leer und es war kein Service Worker registriert. Nach einem Online-Aufruf funktionierte der nächste Offline-Reload.
+
+**Sam.** Ich bekam dieselbe Chrome-Fehlerseite. Nach einem Online-Aufruf konnte ich die Übersicht offline neu laden. Im Netzwerkprotokoll steht für diesen Reload HTTP 200 aus dem Cache.
+
+**Bewertung.** Die Browsermeldung beim Erstbesuch war erwartet. Der Browser benötigt zunächst eine Verbindung, um die App zu laden und den Service Worker zu installieren. Ein Hinweis in der Anmeldebestätigung kann Teilnehmende daran erinnern, die App vorab online zu öffnen.
