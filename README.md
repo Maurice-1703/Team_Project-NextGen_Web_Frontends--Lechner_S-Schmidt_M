@@ -67,7 +67,7 @@ Die IDs für die statischen Session- und Speaker-Routen stammen aus `useConferen
 
 ## Offline-Betrieb in Schritt 3
 
-`vite-plugin-pwa` erzeugt beim Build das Web App Manifest und einen Service Worker. Der Service Worker legt beim ersten Besuch alle Dateien aus `dist/` in den Precache: App-Code, Styles, Icons, alle vorgerenderten Übersichts- und Detailseiten. Danach liefert er sie aus dem Cache, auch ohne Netz. Gefilterte URLs wie `/sessions?track=…` verwenden die gecachte Übersicht, weil der Service Worker die Filter-Parameter beim Nachschlagen ignoriert. Neue Inhalte kommen mit dem nächsten Deploy: Der neue Service Worker aktualisiert sich automatisch (`registerType: "autoUpdate"`).
+`vite-plugin-pwa` erzeugt beim Build das Web App Manifest und einen Service Worker. Bei der Installation speichert der Service Worker App-Code, Styles, Icons, das Manifest und alle vorgerenderten Übersichts- und Detailseiten vorab. Danach liefert er sie auch ohne Netz aus dem Cache. Gefilterte URLs wie `/sessions?track=…` verwenden die gecachte Übersicht, weil der Service Worker die Filterparameter beim Nachschlagen ignoriert. Nach einem Deploy aktiviert sich der neue Service Worker automatisch. Neue Inhalte werden beim nächsten Seitenaufruf oder Reload sichtbar (`registerType: "autoUpdate"`).
 
 ### Offline-Verhalten testen
 

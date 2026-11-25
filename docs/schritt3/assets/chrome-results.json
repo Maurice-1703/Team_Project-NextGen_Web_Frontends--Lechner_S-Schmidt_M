@@ -1,0 +1,238 @@
+{
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/158.0.8127.88",
+    "revision": "@0cefb18236a23db1ebb6b2bc040fbbaf8cbe759e",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+    "jsVersion": "15.8.62.31"
+  },
+  "app": {
+    "controller": "http://localhost:44173/sw.js",
+    "registration": {
+      "scope": "http://localhost:44173/",
+      "state": "activated"
+    },
+    "manifestUrl": "http://localhost:44173/manifest.webmanifest",
+    "manifest": {
+      "name": "CouchCoding | FrontendNow",
+      "short_name": "CouchCoding",
+      "description": "CouchCoding begleitet Teilnehmende der zweitägigen FrontendNow-Konferenz",
+      "start_url": "/sessions",
+      "display": "standalone",
+      "background_color": "#1a1420",
+      "theme_color": "#7a55b3",
+      "lang": "de",
+      "scope": "/",
+      "icons": [
+        {
+          "src": "pwa-64x64.png",
+          "sizes": "64x64",
+          "type": "image/png"
+        },
+        {
+          "src": "pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "pwa-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        },
+        {
+          "src": "maskable-icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    "manifestErrors": [],
+    "installabilityErrors": [],
+    "cache": {
+      "name": "workbox-precache-v2-http://localhost:44173/",
+      "entries": [
+        "/apple-touch-icon-180x180.png",
+        "/assets/app-BggH-Bp9.css",
+        "/assets/app-BmTBVV7U.js",
+        "/favicon.ico",
+        "/index.html",
+        "/logo.png",
+        "/manifest.webmanifest",
+        "/maskable-icon-512x512.png",
+        "/my-program.html",
+        "/pwa-192x192.png",
+        "/pwa-512x512.png",
+        "/pwa-64x64.png",
+        "/registerSW.js",
+        "/sessions.html",
+        "/sessions/s01.html",
+        "/sessions/s02.html",
+        "/sessions/s03.html",
+        "/sessions/s04.html",
+        "/sessions/s05.html",
+        "/sessions/s06.html",
+        "/sessions/s07.html",
+        "/sessions/s08.html",
+        "/sessions/s09.html",
+        "/sessions/s10.html",
+        "/sessions/s11.html",
+        "/sessions/s12.html",
+        "/sessions/s13.html",
+        "/sessions/s14.html",
+        "/sessions/s15.html",
+        "/sessions/s16.html",
+        "/sessions/s17.html",
+        "/sessions/s18.html",
+        "/sessions/s19.html",
+        "/sessions/s20.html",
+        "/speakers.html",
+        "/speakers/sp01.html",
+        "/speakers/sp02.html",
+        "/speakers/sp03.html",
+        "/speakers/sp04.html",
+        "/speakers/sp05.html",
+        "/speakers/sp06.html",
+        "/speakers/sp07.html",
+        "/speakers/sp08.html",
+        "/speakers/sp09.html",
+        "/speakers/sp10.html",
+        "/speakers/sp11.html",
+        "/speakers/sp12.html",
+        "/speakers/sp13.html",
+        "/speakers/sp14.html",
+        "/speakers/sp15.html",
+        "/speakers/sp16.html",
+        "/speakers/sp17.html",
+        "/speakers/sp18.html"
+      ]
+    }
+  },
+  "scenarioI": {
+    "overview": {
+      "url": "http://localhost:44173/sessions",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "filtered": {
+      "url": "http://localhost:44173/sessions?track=frontend-architecture",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "filteredCount": "4 von 20 Sessions",
+    "session": {
+      "url": "http://localhost:44173/sessions/s17",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "speaker": {
+      "url": "http://localhost:44173/speakers/sp07",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "start": {
+      "url": "http://localhost:44173/",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "trailingSlash": {
+      "url": "http://localhost:44173/sessions/",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "unknownPath": {
+      "url": "http://localhost:44173/branding",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": [],
+      "heading": "Seite nicht gefunden",
+      "body": "Seite nicht gefunden\n\nUnter dieser Adresse gibt es keine Seite.\n\nZur Sessionübersicht"
+    }
+  },
+  "scenarioII": {
+    "offlineDocument": {
+      "url": "http://localhost:44173/my-program",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    },
+    "prerenderedLoadingText": "Deine Auswahl wird geladen …",
+    "groups": [
+      "2026-09-15",
+      "2026-09-16"
+    ],
+    "saved": [
+      "s01",
+      "s02",
+      "s17"
+    ],
+    "afterRemoval": [
+      "s01",
+      "s17"
+    ],
+    "afterRemovalDocument": {
+      "url": "http://localhost:44173/my-program",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    }
+  },
+  "scenarioIII": {
+    "usageBeforeFirstVisit": 0,
+    "initialRequest": {
+      "url": "http://localhost:44173/sessions",
+      "offline": true,
+      "navigationError": "net::ERR_INTERNET_DISCONNECTED",
+      "failures": [
+        {
+          "type": "Document",
+          "error": "net::ERR_INTERNET_DISCONNECTED"
+        }
+      ],
+      "console": []
+    },
+    "errorCode": "ERR_INTERNET_DISCONNECTED",
+    "recovered": {
+      "url": "http://localhost:44173/sessions",
+      "status": 200,
+      "fromServiceWorker": true,
+      "source": "cache-storage",
+      "offline": true,
+      "failures": [],
+      "console": []
+    }
+  }
+}
